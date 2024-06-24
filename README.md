@@ -9,8 +9,15 @@ The interface is written in french.
 The program is written in C# using the framework .NET Core 8.0.
 
 ### Newtonsoft.JSON
-The data is recorded on a JSON file.\
+The data is recorded on a JSON file.
+
 The library Newtonsoft.JSON is used to manipulate data in JSON format.
+
+### Serilog
+User's activity on the app is recorded on a log file.
+
+Serilog is a logging framework for .NET.\
+It is a tool with fully-structured events that simplifies a lot the log management.
 
 ## App environment
 The app works on MacOS, Linux and Windows 10+.
