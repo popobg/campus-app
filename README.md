@@ -16,6 +16,8 @@ The library Newtonsoft.JSON is used to manipulate data in JSON format.
 The app works on MacOS, Linux and Windows 10+.
 
 ## App presentation
+The program comes with a JSON file to record data and a log file to record the activity of the app.
+
 ### Main menu
 The start screen is a menu that gives you three options:
 1. Display students menu
@@ -41,6 +43,3 @@ You can choose between the following options:
 2. Add a new course to the school program
 3. Remove a course from the program
 4. Go back to the main menu
-
-## Dependancies
-The program comes with a JSON file to record data and a log file to record the activity of the app.
