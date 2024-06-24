@@ -1,4 +1,4 @@
-﻿namespace CampusApp
+﻿namespace CampusApp.App
 {
     internal struct MenuChoices
     {

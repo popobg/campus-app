@@ -1,4 +1,4 @@
-﻿namespace CampusApp
+﻿namespace CampusApp.School
 {
     internal class Student
     {
@@ -18,12 +18,12 @@
 
         internal Student(string firstName, string lastName, DateTime birthDate, int studentID)
         {
-            this.FirstName = firstName;
-            this.LastName = lastName;
-            this.BirthDate = birthDate;
-            this.StudentID = studentID;
+            FirstName = firstName;
+            LastName = lastName;
+            BirthDate = birthDate;
+            StudentID = studentID;
             // empty
-            this.SchoolReport = new();
+            SchoolReport = new();
         }
 
         // METHODES
@@ -32,25 +32,25 @@
         internal void AddGrade(int courseID, double mark, string comment)
         {
             // Existing course (recognized by ID)?
-            if (this.SchoolReport.ContainsKey(courseID))
+            if (SchoolReport.ContainsKey(courseID))
             {
-                this.SchoolReport[courseID].Add(new Grade(mark, comment));
+                SchoolReport[courseID].Add(new Grade(mark, comment));
                 return;
             }
 
-            this.SchoolReport.Add(courseID, [new Grade(mark, comment)]);
+            SchoolReport.Add(courseID, [new Grade(mark, comment)]);
         }
 
         // Remove course by its ID
         internal void RemoveCourse(int courseID)
         {
             // the student didn't follow this course
-            if (!this.SchoolReport.ContainsKey(courseID))
+            if (!SchoolReport.ContainsKey(courseID))
             {
                 return;
             }
 
-            this.SchoolReport.Remove(courseID);
+            SchoolReport.Remove(courseID);
         }
 
         //internal void ModifyGrade(string discipline, double mark)
@@ -67,7 +67,7 @@
         {
             double total = 0;
 
-            foreach(Grade grade in grades)
+            foreach (Grade grade in grades)
             {
                 total += grade.Mark;
             }
@@ -78,7 +78,7 @@
         private double CalculateGeneralMean()
         {
             // no grades
-            if (this.SchoolReport.Count() == 0)
+            if (SchoolReport.Count() == 0)
             {
                 return -1;
             }
@@ -87,7 +87,7 @@
             List<double> MeansList = new();
 
             // Contains the lists of grades for each discipline 
-            List<Grade>[] allGrades = this.SchoolReport.Values.ToArray();
+            List<Grade>[] allGrades = SchoolReport.Values.ToArray();
 
             // Calculate the mean of each list of grades,
             // so the mean of each discipline

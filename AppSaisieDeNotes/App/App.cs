@@ -1,6 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using CampusApp.School;
 
-namespace CampusApp
+namespace CampusApp.App
 {
     /// <summary>
     /// Manages console UI and coordinates all the classes accordingly.
@@ -13,8 +14,8 @@ namespace CampusApp
 
         internal App()
         {
-            this._students = new Campus();
-            this._courses = new Courses();
+            _students = new Campus();
+            _courses = new Courses();
         }
 
         private int TryConvertInputToInt(string input, int firstNumber, int LastNumber)
@@ -24,10 +25,10 @@ namespace CampusApp
 
             // Incorrect input if empty or null,
             // if not a number and not in the accepted range
-            while (String.IsNullOrEmpty(input) || (!int.TryParse(input, out number) || !acceptedNumbers.Contains(number)))
+            while (string.IsNullOrEmpty(input) || !int.TryParse(input, out number) || !acceptedNumbers.Contains(number))
             {
                 Console.WriteLine("Le chiffre n'est pas reconnu. Entrez une option valide.");
-                Console.Write($">{" ", 4}");
+                Console.Write($">{" ",4}");
                 input = Console.ReadLine();
             }
 
@@ -39,20 +40,20 @@ namespace CampusApp
             // numbers not allowed
             if (value == MenuChoices.CHECK_PERSON_NAME)
             {
-                while (String.IsNullOrEmpty(name) || !(Regex.Match(name, @"(\b[a-z]+\b)+", RegexOptions.IgnoreCase).Success))
+                while (string.IsNullOrEmpty(name) || !Regex.Match(name, @"(\b[a-z]+\b)+", RegexOptions.IgnoreCase).Success)
                 {
                     Console.WriteLine("Le nom ne doit comporter que des lettres ; plusieurs mots peuvent être séparés par un tiret ou un espace.\nLes majuscules et minuscules sont acceptées.");
-                    Console.Write($">{" ", 4}");
+                    Console.Write($">{" ",4}");
                     name = Console.ReadLine();
                 }
             }
             // numbers allowed
             else
             {
-                while (String.IsNullOrEmpty(name) || !(Regex.Match(name, @"(\b\w+\b)+", RegexOptions.IgnoreCase).Success))
+                while (string.IsNullOrEmpty(name) || !Regex.Match(name, @"(\b\w+\b)+", RegexOptions.IgnoreCase).Success)
                 {
                     Console.WriteLine("Le nom doit comporter au moins une lettre ou un chiffre. Il peut comporter des espaces ou des tirets.\nLes majuscules et minuscules sont acceptées.");
-                    Console.Write($">{" ", 4}");
+                    Console.Write($">{" ",4}");
                     name = Console.ReadLine();
                 }
             }
@@ -74,7 +75,7 @@ namespace CampusApp
                 catch (Exception)
                 {
                     Console.WriteLine("La date de naissance doit être au format DD/MM/YYYY. Les dates entrées doivent exister.");
-                    Console.Write($">{" ", 4}");
+                    Console.Write($">{" ",4}");
                     input = Console.ReadLine();
                 }
             }
@@ -86,13 +87,13 @@ namespace CampusApp
         {
             Console.WriteLine();
             Console.WriteLine(message);
-            Console.Write($">{" ", 4}");
+            Console.Write($">{" ",4}");
             string input = Console.ReadLine().ToLower();
 
-            while (String.IsNullOrEmpty(input) || (input != "y" && input != "n"))
+            while (string.IsNullOrEmpty(input) || input != "y" && input != "n")
             {
                 Console.WriteLine(message);
-                Console.Write($">{" ", 4}");
+                Console.Write($">{" ",4}");
                 input = Console.ReadLine().ToLower();
             }
 
@@ -111,84 +112,84 @@ namespace CampusApp
             switch (choice)
             {
                 case MenuChoices.MAIN_MENU:
-                    this.DisplayMainMenu();
+                    DisplayMainMenu();
                     break;
 
                 case MenuChoices.STUDENTS_MENU:
-                    this.DisplayStudentsMenu();
+                    DisplayStudentsMenu();
                     break;
 
                 case MenuChoices.COURSES_MENU:
-                    this.DisplayCoursesMenu();
+                    DisplayCoursesMenu();
                     break;
 
                 case MenuChoices.LIST_STUDENTS:
                     Console.Clear();
-                    this.DisplayListStudents();
+                    DisplayListStudents();
                     Console.ReadKey(false);
                     // come back to the students menu (previous menu)
-                    this.ManageMenus(MenuChoices.STUDENTS_MENU);
+                    ManageMenus(MenuChoices.STUDENTS_MENU);
                     break;
 
                 case MenuChoices.NEW_STUDENT:
                     Console.Clear();
-                    this.CreateNewStudent();
-                    this.ManageMenus(MenuChoices.STUDENTS_MENU);
+                    CreateNewStudent();
+                    ManageMenus(MenuChoices.STUDENTS_MENU);
                     break;
 
                 case MenuChoices.DISPLAY_STUDENT:
                     try
                     {
-                        Student studentToDisplay = this.ChooseStudent("De quel élève souhaitez-vous consulter les informations (tapez son index) ?");
-                        this.DisplayStudentInfo(studentToDisplay);
-                        this.ManageMenus(MenuChoices.STUDENTS_MENU);
+                        Student studentToDisplay = ChooseStudent("De quel élève souhaitez-vous consulter les informations (tapez son index) ?");
+                        DisplayStudentInfo(studentToDisplay);
+                        ManageMenus(MenuChoices.STUDENTS_MENU);
                         break;
                     }
-                    catch (Exception) 
+                    catch (Exception)
                     {
-                        this.ManageMenus(MenuChoices.STUDENTS_MENU);
+                        ManageMenus(MenuChoices.STUDENTS_MENU);
                         break;
                     }
 
                 case MenuChoices.ADD_GRADE:
                     try
                     {
-                        Student studentToAssess = this.ChooseStudent("A quel élève voulez-vous ajouter une note (tapez son index) ?");
-                        Lesson courseToAssess = this.ChooseCourse("A quel cours voulez-vous ajouter une note (tapez son index) ?");
+                        Student studentToAssess = ChooseStudent("A quel élève voulez-vous ajouter une note (tapez son index) ?");
+                        Lesson courseToAssess = ChooseCourse("A quel cours voulez-vous ajouter une note (tapez son index) ?");
                         ManageAddingGrade(studentToAssess, courseToAssess);
-                        this.ManageMenus(MenuChoices.STUDENTS_MENU);
+                        ManageMenus(MenuChoices.STUDENTS_MENU);
                         break;
                     }
                     catch (Exception)
                     {
-                        this.ManageMenus(MenuChoices.STUDENTS_MENU);
+                        ManageMenus(MenuChoices.STUDENTS_MENU);
                         break;
                     }
 
                 case MenuChoices.LIST_COURSES:
                     Console.Clear();
-                    this.DisplayListCourses();
+                    DisplayListCourses();
                     Console.ReadKey(false);
                     // come back to the courses menu (previous menu)
-                    this.ManageMenus(MenuChoices.COURSES_MENU);
+                    ManageMenus(MenuChoices.COURSES_MENU);
                     break;
 
                 case MenuChoices.ADD_LESSON:
                     ManageAddingCourse();
-                    this.ManageMenus(MenuChoices.COURSES_MENU);
+                    ManageMenus(MenuChoices.COURSES_MENU);
                     break;
 
                 case MenuChoices.REMOVE_LESSON:
                     try
                     {
-                        Lesson courseToRemove = this.ChooseCourse("Quel cours voulez-vous supprimer (tapez son index) ?");
-                        this.ManageRemovingCourse(courseToRemove);
-                        this.ManageMenus(MenuChoices.COURSES_MENU);
+                        Lesson courseToRemove = ChooseCourse("Quel cours voulez-vous supprimer (tapez son index) ?");
+                        ManageRemovingCourse(courseToRemove);
+                        ManageMenus(MenuChoices.COURSES_MENU);
                         break;
                     }
                     catch (Exception)
                     {
-                        this.ManageMenus(MenuChoices.COURSES_MENU);
+                        ManageMenus(MenuChoices.COURSES_MENU);
                         break;
                     }
 
@@ -213,21 +214,21 @@ namespace CampusApp
             Console.WriteLine("3. Quitter l'application");
             Console.WriteLine();
 
-            Console.Write($">{" ", 4}");
+            Console.Write($">{" ",4}");
 
-            int inputChoice = this.TryConvertInputToInt(Console.ReadLine(), 1, 3);
+            int inputChoice = TryConvertInputToInt(Console.ReadLine(), 1, 3);
 
             if (inputChoice == 1)
             {
-                this.ManageMenus(MenuChoices.STUDENTS_MENU);
+                ManageMenus(MenuChoices.STUDENTS_MENU);
             }
             else if (inputChoice == 2)
             {
-                this.ManageMenus(MenuChoices.COURSES_MENU);
+                ManageMenus(MenuChoices.COURSES_MENU);
             }
             else
             {
-                this.ManageMenus(MenuChoices.QUIT_APP);
+                ManageMenus(MenuChoices.QUIT_APP);
             }
         }
 
@@ -248,27 +249,27 @@ namespace CampusApp
 
             Console.Write(">{0, 4}", "");
 
-            int inputChoice = this.TryConvertInputToInt(Console.ReadLine(), 1, 5);
+            int inputChoice = TryConvertInputToInt(Console.ReadLine(), 1, 5);
 
             if (inputChoice == 1)
             {
-                this.ManageMenus(MenuChoices.LIST_STUDENTS);
+                ManageMenus(MenuChoices.LIST_STUDENTS);
             }
             else if (inputChoice == 2)
             {
-                this.ManageMenus(MenuChoices.NEW_STUDENT);
+                ManageMenus(MenuChoices.NEW_STUDENT);
             }
             else if (inputChoice == 3)
             {
-                this.ManageMenus(MenuChoices.DISPLAY_STUDENT);
+                ManageMenus(MenuChoices.DISPLAY_STUDENT);
             }
             else if (inputChoice == 4)
             {
-                this.ManageMenus(MenuChoices.ADD_GRADE);
+                ManageMenus(MenuChoices.ADD_GRADE);
             }
             else
             {
-                this.ManageMenus();
+                ManageMenus();
             }
         }
 
@@ -286,32 +287,32 @@ namespace CampusApp
             Console.WriteLine("4. Retour au menu principal");
             Console.WriteLine();
 
-            Console.Write($">{" ", 4}");
+            Console.Write($">{" ",4}");
 
-            int inputChoice = this.TryConvertInputToInt(Console.ReadLine(), 1, 4);
+            int inputChoice = TryConvertInputToInt(Console.ReadLine(), 1, 4);
 
             if (inputChoice == 1)
             {
-                this.ManageMenus(MenuChoices.LIST_COURSES);
+                ManageMenus(MenuChoices.LIST_COURSES);
             }
             else if (inputChoice == 2)
             {
-                this.ManageMenus(MenuChoices.ADD_LESSON);
+                ManageMenus(MenuChoices.ADD_LESSON);
             }
             else if (inputChoice == 3)
             {
-                this.ManageMenus(MenuChoices.REMOVE_LESSON);
+                ManageMenus(MenuChoices.REMOVE_LESSON);
             }
             else
             {
-                this.ManageMenus();
+                ManageMenus();
             }
         }
 
         private void DisplayListStudents()
         {
             Console.Clear();
-            var listStudents = this._students.StudentsList;
+            var listStudents = _students.StudentsList;
             int listIndex = 1;
 
             if (listStudents.Count() == 0)
@@ -341,15 +342,15 @@ namespace CampusApp
             Console.WriteLine();
 
             Console.WriteLine("Quel est le prénom de l'élève ?");
-            Console.Write($">{" ", 4}");
+            Console.Write($">{" ",4}");
             string firstName = CheckName(Console.ReadLine(), MenuChoices.CHECK_PERSON_NAME);
 
             Console.WriteLine("Quel est le nom de l'élève ?");
-            Console.Write($">{" ", 4}");
+            Console.Write($">{" ",4}");
             string lastName = CheckName(Console.ReadLine(), MenuChoices.CHECK_PERSON_NAME);
 
             Console.WriteLine("Quelle est sa date de naissance (format dd/mm/aaaa) ?");
-            Console.Write($">{" ", 4}");
+            Console.Write($">{" ",4}");
             DateTime birthDate = ConvertToDateTime(Console.ReadLine());
 
             Console.WriteLine($"Prénom : {firstName}, nom : {lastName}");
@@ -381,7 +382,7 @@ namespace CampusApp
         private Student ChooseStudent(string message)
         {
             Console.Clear();
-            var listStudents = this._students.StudentsList;
+            var listStudents = _students.StudentsList;
 
             // no students added yet
             if (listStudents.Count() == 0)
@@ -399,13 +400,13 @@ namespace CampusApp
             }
 
             // display list of students
-            this.DisplayListStudents();
+            DisplayListStudents();
 
             Console.WriteLine();
             Console.WriteLine(message);
-            Console.Write($">{" ", 4}");
+            Console.Write($">{" ",4}");
             // revoir le message d'erreur
-            int choice = this.TryConvertInputToInt(Console.ReadLine(), 1, listStudents.Count());
+            int choice = TryConvertInputToInt(Console.ReadLine(), 1, listStudents.Count());
 
             return listStudents[choice - 1];
         }
@@ -428,7 +429,7 @@ namespace CampusApp
 
             foreach (KeyValuePair<int, List<Grade>> kvp in student.SchoolReport)
             {
-                string courseName = this._courses.GetCourseByID(kvp.Key);
+                string courseName = _courses.GetCourseByID(kvp.Key);
 
                 Console.Write("{0, 8}", " ");
                 Console.WriteLine($"Cours : {courseName}");
@@ -468,19 +469,19 @@ namespace CampusApp
             Console.ReadKey(false);
         }
 
-        private void ManageAddingGrade(Student student, Lesson course) 
+        private void ManageAddingGrade(Student student, Lesson course)
         {
             Console.WriteLine($"ELEVE : {student.FirstName} {student.LastName}");
             double grade;
-            
+
             Console.Write("Note à ajouter (obligatoire) :");
             Console.Write("{0, 4}", " ");
             string input = Console.ReadLine();
 
-            while (String.IsNullOrEmpty(input) || (!double.TryParse(input, out grade) || grade < 0 || grade > 20))
+            while (string.IsNullOrEmpty(input) || !double.TryParse(input, out grade) || grade < 0 || grade > 20)
             {
                 Console.WriteLine("Vous devez entrer une note entre 0 et 20.\nLes chiffres à virgule sont acceptés.");
-                Console.Write($">{" ", 4}");
+                Console.Write($">{" ",4}");
                 input = Console.ReadLine();
             }
 
@@ -526,7 +527,7 @@ namespace CampusApp
             Console.WriteLine($"Nouveau cours : {fieldName}.");
 
             // Confirmation
-           int choice = ConfirmationCheck("Ajouter ce cours au programme ? (y/n)");
+            int choice = ConfirmationCheck("Ajouter ce cours au programme ? (y/n)");
 
             if (choice == MenuChoices.NO)
             {
@@ -612,7 +613,7 @@ namespace CampusApp
         {
             Console.Clear();
 
-            var listCourses = this._courses.CoursesList;
+            var listCourses = _courses.CoursesList;
 
             // no students added yet
             if (listCourses.Count() == 0)
@@ -629,12 +630,12 @@ namespace CampusApp
             }
 
             // display list of students
-            this.DisplayListCourses();
+            DisplayListCourses();
 
             Console.WriteLine();
             Console.WriteLine(message);
-            Console.Write($">{" ", 4}");
-            int choice = this.TryConvertInputToInt(Console.ReadLine(), 1, listCourses.Count());
+            Console.Write($">{" ",4}");
+            int choice = TryConvertInputToInt(Console.ReadLine(), 1, listCourses.Count());
 
             return listCourses[choice - 1];
         }

@@ -1,4 +1,4 @@
-﻿namespace CampusApp
+﻿namespace CampusApp.School
 {
     internal class Campus
     {
@@ -9,24 +9,24 @@
 
         internal Campus()
         {
-            this.StudentsList = new();
-            this._lastStudentID = 0;
+            StudentsList = new();
+            _lastStudentID = 0;
         }
 
         internal Campus(List<Student> Eleve)
         {
-            this.StudentsList = Eleve;
-            this._lastStudentID = Eleve.Last().StudentID;
+            StudentsList = Eleve;
+            _lastStudentID = Eleve.Last().StudentID;
         }
 
         // "Créer un nouvel élève"
         internal void AddStudent(string firstName, string lastName, DateTime birthDate)
         {
             // no need to check for a duplicate because two students with the same name and birthday is possible
-            this._lastStudentID++;
+            _lastStudentID++;
             // unique ID for each student
-            var eleve = new Student(firstName, lastName, birthDate, this._lastStudentID);
-            this.StudentsList.Add(eleve);
+            var eleve = new Student(firstName, lastName, birthDate, _lastStudentID);
+            StudentsList.Add(eleve);
         }
     }
 }

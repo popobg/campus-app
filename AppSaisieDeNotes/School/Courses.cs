@@ -1,4 +1,4 @@
-﻿namespace CampusApp
+﻿namespace CampusApp.School
 {
     internal class Courses
     {
@@ -44,19 +44,19 @@
         {
             // several lessons can have the same name;
             // they will just not have the same ID
-            this._lastCourseID++;
-            var newLesson = new Lesson(nom, this._lastCourseID);
+            _lastCourseID++;
+            var newLesson = new Lesson(nom, _lastCourseID);
             CoursesList.Add(newLesson);
         }
 
         // Remove a course by its ID
         internal void RemoveLesson(Lesson course, List<Student> studentsList)
         {
-            foreach(Student eleve in studentsList)
+            foreach (Student eleve in studentsList)
             {
                 eleve.RemoveCourse(course.LessonID);
             }
-            this.CoursesList.Remove(course);
+            CoursesList.Remove(course);
         }
     }
 }

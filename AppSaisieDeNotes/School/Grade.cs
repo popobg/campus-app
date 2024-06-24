@@ -1,4 +1,4 @@
-﻿namespace CampusApp
+﻿namespace CampusApp.School
 {
     internal struct Grade
     {
@@ -11,8 +11,8 @@
 
         internal Grade(double mark, string comment)
         {
-            this.Mark = mark;
-            this.Comment = comment;
+            Mark = mark;
+            Comment = comment;
         }
     }
 }

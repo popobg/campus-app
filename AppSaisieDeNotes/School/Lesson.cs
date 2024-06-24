@@ -1,4 +1,4 @@
-﻿namespace CampusApp
+﻿namespace CampusApp.School
 {
     internal struct Lesson
     {
@@ -8,8 +8,8 @@
 
         internal Lesson(string nom, int id)
         {
-            this.Name = nom;
-            this.LessonID = id;
+            Name = nom;
+            LessonID = id;
         }
     }
 }
