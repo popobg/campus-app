@@ -23,7 +23,7 @@ It is a tool with fully-structured events that simplifies a lot the log manageme
 The app works on MacOS, Linux and Windows 10+.
 
 ## App presentation
-The program comes with a JSON file to record data and a log file to record the activity on the app.
+The program comes with a JSON file to record data that must be in the campus-app folder, and a log file to record the activity on the app which is contains in the AppSaisieDeNotes folder.
 
 ### Main menu
 The start screen is a menu that gives you three options:
