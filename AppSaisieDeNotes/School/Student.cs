@@ -1,16 +1,23 @@
-﻿namespace CampusApp.School
+﻿using Newtonsoft.Json;
+
+namespace CampusApp.School
 {
     internal class Student
     {
         // name can be modified (modifying menu not implemented yet)
+        [JsonProperty]
         internal string LastName { get; set; }
 
+        [JsonProperty]
         internal string FirstName { get; set; }
 
+        [JsonProperty]
         internal DateTime BirthDate { get; }
 
+        [JsonProperty]
         internal int StudentID { get; }
 
+        [JsonProperty]
         // Key : course ID, Value : list of Grade object
         internal Dictionary<int, List<Grade>> SchoolReport { get; }
 
@@ -24,6 +31,12 @@
             StudentID = studentID;
             // empty
             SchoolReport = new();
+        }
+
+        [JsonConstructor]
+        internal Student(string firstName, string lastName, DateTime birthDate, int studentID, Dictionary<int, List<Grade>> schoolReport) :this (firstName, lastName, birthDate, studentID)
+        {
+            SchoolReport = schoolReport;
         }
 
         // METHODES

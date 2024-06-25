@@ -1,0 +1,74 @@
+{
+  "_students": {
+    "StudentsList": [
+      {
+        "LastName": "Bg",
+        "FirstName": "Popo",
+        "BirthDate": "1997-11-23T00:00:00",
+        "StudentID": 1,
+        "SchoolReport": {
+          "2": [
+            {
+              "Mark": 10.0,
+              "Comment": "Moyen"
+            }
+          ]
+        }
+      },
+      {
+        "LastName": "Sabatier",
+        "FirstName": "Paul",
+        "BirthDate": "1854-11-05T00:00:00",
+        "StudentID": 2,
+        "SchoolReport": {
+          "2": [
+            {
+              "Mark": 20.0,
+              "Comment": "\"Gros bg\""
+            }
+          ]
+        }
+      },
+      {
+        "LastName": "Garcia",
+        "FirstName": "José",
+        "BirthDate": "2050-12-12T00:00:00",
+        "StudentID": 1,
+        "SchoolReport": {
+          "0": [
+            {
+              "Mark": 14.0,
+              "Comment": "Pas mal"
+            }
+          ]
+        }
+      },
+      {
+        "LastName": "Monkey D",
+        "FirstName": "Luffy",
+        "BirthDate": "1997-07-01T00:00:00",
+        "StudentID": 1,
+        "SchoolReport": {
+          "0": [
+            {
+              "Mark": 0.0,
+              "Comment": "Ne parle pas un mot de français"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "_courses": {
+    "CoursesList": [
+      {
+        "Name": "Français",
+        "LessonID": 0
+      },
+      {
+        "Name": "Maths",
+        "LessonID": 0
+      }
+    ]
+  }
+}

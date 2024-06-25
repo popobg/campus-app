@@ -1,5 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using CampusApp.School;
+using Newtonsoft.Json;
+using Serilog;
 
 namespace CampusApp.App
 {
@@ -9,9 +11,12 @@ namespace CampusApp.App
     /// </summary>
     internal class App
     {
+        [JsonProperty]
         private Campus _students;
+        [JsonProperty]
         private Courses _courses;
 
+        [JsonConstructor]
         internal App()
         {
             _students = new Campus();
@@ -40,7 +45,7 @@ namespace CampusApp.App
             // numbers not allowed
             if (value == MenuChoices.CHECK_PERSON_NAME)
             {
-                while (string.IsNullOrEmpty(name) || !Regex.Match(name, @"(\b[a-z]+\b)+", RegexOptions.IgnoreCase).Success)
+                while (string.IsNullOrEmpty(name) || !Regex.Match(name, @"(\b[a-zâãäåæçéèêëìíîïñòóôõøùúûü]+\b)+", RegexOptions.IgnoreCase).Success)
                 {
                     Console.WriteLine("Le nom ne doit comporter que des lettres ; plusieurs mots peuvent être séparés par un tiret ou un espace.\nLes majuscules et minuscules sont acceptées.");
                     Console.Write($">{" ",4}");
@@ -69,6 +74,8 @@ namespace CampusApp.App
             {
                 try
                 {
+                    // limitation:
+                    // doesn't throw an error if the year is forthcoming
                     birthDate = DateTime.ParseExact(input, "dd/MM/yyyy", null);
                     break;
                 }
@@ -309,7 +316,7 @@ namespace CampusApp.App
             }
         }
 
-        private void DisplayListStudents()
+        private void DisplayListStudents(int directCall = 0)
         {
             Console.Clear();
             var listStudents = _students.StudentsList;
@@ -320,6 +327,9 @@ namespace CampusApp.App
                 Console.WriteLine(MenuChoices.SEPARATION_LINE);
                 Console.WriteLine("Il n'y a pas encore d'élèves saisis.");
                 Console.WriteLine(MenuChoices.SEPARATION_LINE);
+
+                Log.Error("Tentative de consultation d'une liste d'élèves vide");
+
                 return;
             }
 
@@ -333,6 +343,11 @@ namespace CampusApp.App
 
             Console.WriteLine();
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
+
+            if (directCall == 1)
+            {
+                Log.Information("Consultation de la liste des élèves");
+            }
         }
 
         private void CreateNewStudent()
@@ -377,6 +392,8 @@ namespace CampusApp.App
             Console.WriteLine(MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.ReadKey(false);
+
+            Log.Information($"Ajout de l'élève {firstName} {lastName} à la liste du campus");
         }
 
         private Student ChooseStudent(string message)
@@ -394,13 +411,15 @@ namespace CampusApp.App
                 Console.WriteLine(MenuChoices.SEPARATION_LINE);
                 Console.ReadKey(false);
 
+                Log.Error("Tentative d'accès à un élève inexistant");
+
                 // returns to the try-catch where the function was called
                 // before the end of it
                 throw new Exception();
             }
 
             // display list of students
-            DisplayListStudents();
+            DisplayListStudents(0);
 
             Console.WriteLine();
             Console.WriteLine(message);
@@ -441,6 +460,7 @@ namespace CampusApp.App
 
                     Console.Write("{0, 12}", " ");
                     Console.WriteLine($"Appréciation : {grade.Comment}");
+                    Console.WriteLine();
                 }
 
                 Console.Write("{0, 8}", " ");
@@ -467,6 +487,8 @@ namespace CampusApp.App
             Console.WriteLine(MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.ReadKey(false);
+
+            Log.Information($"Consultation du bulletin de l'élève {student.FirstName} {student.LastName}");
         }
 
         private void ManageAddingGrade(Student student, Lesson course)
@@ -515,6 +537,8 @@ namespace CampusApp.App
             Console.WriteLine("\n" + MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.ReadKey(false);
+
+            Log.Information($"Ajout d'une note pour l'élève {student.FirstName} {student.LastName} pour le cours {course.Name} : {grade}/20, \"{comment}\"");
         }
 
         private void ManageAddingCourse()
@@ -543,22 +567,24 @@ namespace CampusApp.App
             Console.WriteLine("\n" + MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.ReadKey(false);
+
+            Log.Information($"Ajout du cours {fieldName} au programme");
         }
 
         private void ManageRemovingCourse(Lesson course)
         {
-            if (!_courses.CoursesList.Contains(course))
-            {
-                Console.WriteLine(MenuChoices.SEPARATION_LINE);
-                Console.WriteLine("Ce cours n'est pas inscrit au programme. Il ne peut pas être supprimé.");
-                Console.WriteLine(MenuChoices.RETURN);
-                Console.WriteLine(MenuChoices.SEPARATION_LINE);
-                Console.ReadKey(false);
+            //if (!_courses.CoursesList.Contains(course))
+            //{
+            //    Console.WriteLine(MenuChoices.SEPARATION_LINE);
+            //    Console.WriteLine("Ce cours n'est pas inscrit au programme. Il ne peut pas être supprimé.");
+            //    Console.WriteLine(MenuChoices.RETURN);
+            //    Console.WriteLine(MenuChoices.SEPARATION_LINE);
+            //    Console.ReadKey(false);
 
-                // returns to the try-catch where the function was called
-                // before the end of it
-                throw new Exception();
-            }
+            //    // returns to the try-catch where the function was called
+            //    // before the end of it
+            //    throw new Exception();
+            //}
 
             // Confirmation
             int choice = ConfirmationCheck($"Supprimer le cours {course.Name} du programme ? (y/n)");
@@ -572,14 +598,19 @@ namespace CampusApp.App
                 return;
             }
 
+            // necessary for the log
+            string courseName = course.Name;
+
             _courses.RemoveLesson(course, _students.StudentsList);
             Console.WriteLine($"Le cours {course.Name} a été supprimé avec succès.");
             Console.WriteLine("\n" + MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.ReadKey(false);
+
+            Log.Information($"Suppression du cours {courseName} au programme");
         }
 
-        private void DisplayListCourses()
+        private void DisplayListCourses(int directCall = 1)
         {
             List<Lesson> courses = _courses.CoursesList;
             int index = 1;
@@ -590,6 +621,9 @@ namespace CampusApp.App
             {
                 Console.WriteLine("Aucun cours n'a été ajouté au programme pour le moment.");
                 Console.WriteLine(MenuChoices.SEPARATION_LINE);
+
+                Log.Error("Tentative de consultation d'une liste de cours vide");
+
                 return;
             }
 
@@ -607,6 +641,11 @@ namespace CampusApp.App
 
             Console.WriteLine();
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
+            
+            if (directCall == 1)
+            {
+                Log.Information("Consultation de la liste des cours");
+            }
         }
 
         private Lesson ChooseCourse(string message)
@@ -624,13 +663,15 @@ namespace CampusApp.App
                 Console.WriteLine(MenuChoices.SEPARATION_LINE);
                 Console.ReadKey(false);
 
+                Log.Error("Tentative d'accès à un cours inexistant");
+
                 // returns to the try-catch where the function was called
                 // before the end of it
                 throw new Exception();
             }
 
             // display list of students
-            DisplayListCourses();
+            DisplayListCourses(0);
 
             Console.WriteLine();
             Console.WriteLine(message);

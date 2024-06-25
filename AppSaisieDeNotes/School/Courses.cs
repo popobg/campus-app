@@ -1,10 +1,13 @@
-﻿namespace CampusApp.School
+﻿using Newtonsoft.Json;
+
+namespace CampusApp.School
 {
     internal class Courses
     {
         private int _lastCourseID;
 
-        public List<Lesson> CoursesList { get; private set; }
+        [JsonProperty]
+        internal List<Lesson> CoursesList { get; private set; }
 
         internal Courses()
         {
@@ -12,6 +15,7 @@
             _lastCourseID = 0;
         }
 
+        [JsonConstructor]
         internal Courses(List<Lesson> coursesList)
         {
             CoursesList = coursesList;

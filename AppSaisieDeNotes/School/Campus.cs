@@ -1,11 +1,14 @@
-﻿namespace CampusApp.School
+﻿using Newtonsoft.Json;
+
+namespace CampusApp.School
 {
     internal class Campus
     {
         // ID of the last student on the list
         private int _lastStudentID;
 
-        public List<Student> StudentsList { get; }
+        [JsonProperty]
+        internal List<Student> StudentsList { get; }
 
         internal Campus()
         {
@@ -13,10 +16,11 @@
             _lastStudentID = 0;
         }
 
-        internal Campus(List<Student> Eleve)
+        [JsonConstructor]
+        internal Campus(List<Student> students)
         {
-            StudentsList = Eleve;
-            _lastStudentID = Eleve.Last().StudentID;
+            StudentsList = students;
+            _lastStudentID = students.Last().StudentID;
         }
 
         // "Créer un nouvel élève"
