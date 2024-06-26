@@ -68,6 +68,10 @@
       {
         "Name": "Maths",
         "LessonID": 0
+      },
+      {
+        "Name": "Dev",
+        "LessonID": 1
       }
     ]
   }

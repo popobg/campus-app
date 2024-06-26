@@ -7,7 +7,7 @@ namespace CampusApp.App
     {
         static void Main(string[] args)
         {
-            App app = FileHandler.Deserialize();
+            App app = JSONSerializer.Deserialize();
 
             // log initialization
             Log.Logger = new LoggerConfiguration()
@@ -17,7 +17,7 @@ namespace CampusApp.App
 
             app.ManageMenus();
 
-            FileHandler.Serialize(app);
+            JSONSerializer.Serialize(app);
         }
     }
 }

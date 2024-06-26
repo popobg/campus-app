@@ -2,7 +2,7 @@
 
 namespace CampusApp.App
 {
-    internal static class FileHandler
+    internal static class JSONSerializer
     {
         internal static App Deserialize() 
         {
