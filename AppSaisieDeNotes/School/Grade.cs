@@ -4,9 +4,6 @@ namespace CampusApp.School
 {
     internal struct Grade
     {
-        private double _mark;
-        private string _comment;
-
         [JsonProperty]
         internal double Mark { get; set; }
 

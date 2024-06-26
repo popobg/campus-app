@@ -4,6 +4,7 @@ namespace CampusApp.School
 {
     internal class Campus
     {
+        [JsonProperty("lastID")]
         // ID of the last student on the list
         private int _lastStudentID;
 

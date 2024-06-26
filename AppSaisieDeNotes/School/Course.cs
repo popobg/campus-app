@@ -2,16 +2,15 @@
 
 namespace CampusApp.School
 {
-    internal struct Lesson
+    internal struct Course
     {
         [JsonProperty]
-        internal string Name { get; set; }
+        internal string Name;
 
         [JsonProperty]
-        internal readonly int LessonID { get; }
+        internal readonly int LessonID;
 
-        [JsonConstructor]
-        internal Lesson(string nom, int id)
+        internal Course(string nom, int id)
         {
             Name = nom;
             LessonID = id;

@@ -162,7 +162,7 @@ namespace CampusApp.App
                     try
                     {
                         Student studentToAssess = ChooseStudent("A quel élève voulez-vous ajouter une note (tapez son index) ?");
-                        Lesson courseToAssess = ChooseCourse("A quel cours voulez-vous ajouter une note (tapez son index) ?");
+                        Course courseToAssess = ChooseCourse("A quel cours voulez-vous ajouter une note (tapez son index) ?");
                         ManageAddingGrade(studentToAssess, courseToAssess);
                         ManageMenus(MenuChoices.STUDENTS_MENU);
                         break;
@@ -189,7 +189,7 @@ namespace CampusApp.App
                 case MenuChoices.REMOVE_LESSON:
                     try
                     {
-                        Lesson courseToRemove = ChooseCourse("Quel cours voulez-vous supprimer (tapez son index) ?");
+                        Course courseToRemove = ChooseCourse("Quel cours voulez-vous supprimer (tapez son index) ?");
                         ManageRemovingCourse(courseToRemove);
                         ManageMenus(MenuChoices.COURSES_MENU);
                         break;
@@ -491,7 +491,7 @@ namespace CampusApp.App
             Log.Information($"Consultation du bulletin de l'élève {student.FirstName} {student.LastName}");
         }
 
-        private void ManageAddingGrade(Student student, Lesson course)
+        private void ManageAddingGrade(Student student, Course course)
         {
             Console.WriteLine($"ELEVE : {student.FirstName} {student.LastName}");
             double grade;
@@ -571,7 +571,7 @@ namespace CampusApp.App
             Log.Information($"Ajout du cours {fieldName} au programme");
         }
 
-        private void ManageRemovingCourse(Lesson course)
+        private void ManageRemovingCourse(Course course)
         {
             //if (!_courses.CoursesList.Contains(course))
             //{
@@ -612,7 +612,7 @@ namespace CampusApp.App
 
         private void DisplayListCourses(int directCall = 1)
         {
-            List<Lesson> courses = _courses.CoursesList;
+            List<Course> courses = _courses.CoursesList;
             int index = 1;
 
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
@@ -629,7 +629,7 @@ namespace CampusApp.App
 
             Console.WriteLine("Liste des cours disponibles sur le campus :\n");
 
-            foreach (Lesson course in courses)
+            foreach (Course course in courses)
             {
                 Console.Write("{0, 8}", "");
                 Console.WriteLine($"{index}. Discipline : {course.Name}");
@@ -648,7 +648,7 @@ namespace CampusApp.App
             }
         }
 
-        private Lesson ChooseCourse(string message)
+        private Course ChooseCourse(string message)
         {
             Console.Clear();
 

@@ -4,10 +4,11 @@ namespace CampusApp.School
 {
     internal class Courses
     {
+        [JsonProperty("lastid")]
         private int _lastCourseID;
 
         [JsonProperty]
-        internal List<Lesson> CoursesList { get; private set; }
+        internal List<Course> CoursesList { get; private set; }
 
         internal Courses()
         {
@@ -16,23 +17,15 @@ namespace CampusApp.School
         }
 
         [JsonConstructor]
-        internal Courses(List<Lesson> coursesList)
+        internal Courses(List<Course> coursesList)
         {
             CoursesList = coursesList;
-
-            if (coursesList.Count() == 0)
-            {
-                _lastCourseID = 0;
-            }
-            else
-            {
-                _lastCourseID = coursesList.Last().LessonID;
-            }
+            _lastCourseID = coursesList.Last().LessonID;
         }
 
         internal string GetCourseByID(int ID)
         {
-            foreach (Lesson course in CoursesList)
+            foreach (Course course in CoursesList)
             {
                 if (course.LessonID == ID)
                 {
@@ -49,12 +42,12 @@ namespace CampusApp.School
             // several lessons can have the same name;
             // they will just not have the same ID
             _lastCourseID++;
-            var newLesson = new Lesson(nom, _lastCourseID);
+            var newLesson = new Course(nom, _lastCourseID);
             CoursesList.Add(newLesson);
         }
 
         // Remove a course by its ID
-        internal void RemoveLesson(Lesson course, List<Student> studentsList)
+        internal void RemoveLesson(Course course, List<Student> studentsList)
         {
             foreach (Student eleve in studentsList)
             {
