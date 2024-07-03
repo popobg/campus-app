@@ -1,5 +1,5 @@
 ﻿using CampusBackEnd.API;
-using CampusBackEnd.DataStorage;
+using CampusBackEnd.DataModels;
 using Serilog;
 
 namespace CampusFrontEnd.App
@@ -72,6 +72,7 @@ namespace CampusFrontEnd.App
                 return;
             }
 
+            Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.WriteLine("Liste des élèves :\n");
 
             foreach (Student student in students)
@@ -124,7 +125,7 @@ namespace CampusFrontEnd.App
                 return;
             }
 
-            this._api.AddNewItem(firstName, lastName, birthDate);
+            this._api.AddStudents(firstName, lastName, birthDate);
             Console.WriteLine();
             Console.WriteLine("L'élève a été ajouté avec succès à la liste des élèves du campus.\nVous pouvez maintenant consulter ses informations et lui ajouter des cours, des notes et des appréciations.");
             Console.WriteLine();
@@ -153,7 +154,7 @@ namespace CampusFrontEnd.App
 
             foreach (KeyValuePair<int, List<Grade>> kvp in student.SchoolReport)
             {
-                string courseName = this._api.GetCourse(kvp.Key).FieldName;
+                string courseName = this._api.GetCourse(kvp.Key).Name;
 
                 Console.Write("{0, 8}", " ");
                 Console.WriteLine($"Cours : {courseName}");
@@ -169,7 +170,7 @@ namespace CampusFrontEnd.App
                 }
 
                 Console.Write("{0, 8}", " ");
-                Console.WriteLine($"Moyenne pour ce cours : {this._api.CalculateCourseAverage(kvp.Value)}");
+                Console.WriteLine($"Moyenne pour ce cours : {this._api.CalculateCourseAverage(kvp.Value)}/20");
                 Console.WriteLine();
             }
 
@@ -185,7 +186,7 @@ namespace CampusFrontEnd.App
             else
             {
                 Console.Write("{0, 4}", " ");
-                Console.WriteLine($"Moyenne générale : {average}");
+                Console.WriteLine($"Moyenne générale : {average}/20");
             }
 
             Console.WriteLine();
@@ -212,7 +213,7 @@ namespace CampusFrontEnd.App
             Console.WriteLine();
             Console.WriteLine("---------------------------------------------");
             Console.WriteLine($"Etudiant : {student.FirstName} {student.LastName}");
-            Console.WriteLine($"* Cours : {course.FieldName}");
+            Console.WriteLine($"* Cours : {course.Name}");
             Console.WriteLine($"Note : {grade}/20");
             Console.WriteLine($"Appréciation : {comment}");
 
@@ -229,14 +230,14 @@ namespace CampusFrontEnd.App
                 return;
             }
 
-            this._api.AddNewGrade(course.CourseID, grade, comment, student);
+            this._api.AddGrade(course.ID, grade, comment, student);
             Console.WriteLine();
             Console.WriteLine("La note et l'appréciation ont été ajoutées avec succès au bulletin de l'élève.");
             Console.WriteLine("\n" + MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.ReadKey(false);
 
-            Log.Information($"Ajout d'une note pour l'élève {student.FirstName} {student.LastName} pour le cours {course.FieldName} : {grade}/20, \"{comment}\"");
+            Log.Information($"Ajout d'une note pour l'élève {student.FirstName} {student.LastName} pour le cours {course.Name} : {grade}/20, \"{comment}\"");
         }
     }
 }

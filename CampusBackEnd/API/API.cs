@@ -1,6 +1,6 @@
 ﻿using CampusBackEnd.Interfaces;
 using CampusBackEnd.Repository;
-using CampusBackEnd.DataStorage;
+using CampusBackEnd.DataModels;
 
 namespace CampusBackEnd.API
 {
@@ -23,14 +23,14 @@ namespace CampusBackEnd.API
             return this._campusRepository.GetStudents();
         }
 
-        public Student GetStudent(int ID)
+        public void AddStudents(string firstName, string lastName, DateTime birthDate)
         {
-            return this._campusRepository.GetStudent(ID);
+            this._campusRepository.AddStudent(firstName, lastName, birthDate);
         }
 
-        public Student AddNewGrade(int courseID, double grade, string comment, Student student)
+        public Student AddGrade(int courseID, double grade, string comment, Student student)
         {
-            return this._campusRepository.AddNewGrade(courseID, grade, comment, student);
+            return this._campusRepository.AddGrade(courseID, grade, comment, student);
         }
 
         public double CalculateCourseAverage(List<Grade> courseGrades)
@@ -54,19 +54,14 @@ namespace CampusBackEnd.API
             return this._campusRepository.GetCourse(ID);
         }
 
+        public Course AddCourse(string name)
+        {
+            return this._campusRepository.AddCourse(name);
+        }
+
         public void RemoveCourse(Course course)
         {
             this._campusRepository.RemoveCourse(course);
-        }
-
-        public void AddNewItem(string firstName, string lastName, DateTime birthDate)
-        {
-            this._campusRepository.AddNewItem(firstName, lastName, birthDate);
-        }
-
-        public Course AddNewItem(string fieldName)
-        {
-            return this._campusRepository.AddNewItem(fieldName);
         }
     }
 }

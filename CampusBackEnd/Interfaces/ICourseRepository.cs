@@ -1,4 +1,4 @@
-﻿using CampusBackEnd.DataStorage;
+﻿using CampusBackEnd.DataModels;
 
 namespace CampusBackEnd.Interfaces
 {
@@ -6,7 +6,9 @@ namespace CampusBackEnd.Interfaces
     {
         public List<Course> GetCourses();
 
-        public Course GetCourse(int ID);
+        public Course GetCourse(int courseID);
+
+        public Course AddCourse(string fieldName);
 
         public void RemoveCourse(Course course);
     }

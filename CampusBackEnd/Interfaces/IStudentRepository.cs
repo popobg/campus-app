@@ -1,17 +1,17 @@
-﻿using CampusBackEnd.DataStorage;
+﻿using CampusBackEnd.DataModels;
 
 namespace CampusBackEnd.Interfaces
 {
     internal interface IStudentRepository
     {
-        List<Student> GetStudents();
+        public List<Student> GetStudents();
 
-        Student GetStudent(int ID);
+        public void AddStudent(string firstName, string lastName, DateTime birthDate);
 
-        Student AddNewGrade(int courseID, double grade, string comment, Student student);
+        public Student AddGrade(int courseID, double grade, string comment, Student student);
 
-        double CalculateCourseAverage(List<Grade> courseGrades);
+        public double CalculateCourseAverage(List<Grade> courseGrades);
 
-        double CalculateGeneralAverage(Student student);
+        public double CalculateGeneralAverage(Student student);
     }
 }

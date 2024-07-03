@@ -1,5 +1,5 @@
 ﻿using CampusBackEnd.API;
-using CampusBackEnd.DataStorage;
+using CampusBackEnd.DataModels;
 using Serilog;
 
 namespace CampusFrontEnd.App
@@ -103,7 +103,7 @@ namespace CampusFrontEnd.App
                         break;
                     }
 
-                // L'utilisateur a choisi de quitter l'application == QUIT_APP
+                // == QUIT_APP
                 default:
                     Console.WriteLine("Fermeture de l'application...");
                     break;
@@ -112,7 +112,6 @@ namespace CampusFrontEnd.App
 
         private void DisplayMainMenu()
         {
-            // Efface ce qui était affiché dans la console
             Console.Clear();
 
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
@@ -157,7 +156,6 @@ namespace CampusFrontEnd.App
             Console.Clear();
             var students = this.GetStudents();
 
-            // no students added yet
             if (students.Count == 0)
             {
                 Console.WriteLine(MenuChoices.SEPARATION_LINE);
@@ -174,7 +172,6 @@ namespace CampusFrontEnd.App
                 throw new Exception();
             }
 
-            // display list of students
             this._studentsMenu.DisplayListStudents(students, 0);
 
             Console.WriteLine();
@@ -192,7 +189,6 @@ namespace CampusFrontEnd.App
 
             var courses = this._api.GetCourses();
 
-            // no students added yet
             if (courses.Count == 0)
             {
                 Console.WriteLine(MenuChoices.SEPARATION_LINE);

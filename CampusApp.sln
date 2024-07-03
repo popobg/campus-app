@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampusBackEnd", "CampusBack
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampusFrontEnd", "CampusFrontEnd\CampusFrontEnd.csproj", "{2AF332F0-0E0B-418B-BA83-FC389EB1DC75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCampusApp", "TestCampusApp\TestCampusApp.csproj", "{F657E52F-03F6-4777-94E6-80F455AE36FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampusApp.Tests", "TestCampusApp\CampusApp.Tests.csproj", "{F657E52F-03F6-4777-94E6-80F455AE36FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
