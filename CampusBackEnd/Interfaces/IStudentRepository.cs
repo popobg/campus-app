@@ -1,4 +1,4 @@
-﻿using CampusBackEnd.DataStorage;
+﻿using CampusBackEnd.DataModels;
 
 namespace CampusBackEnd.Interfaces
 {
@@ -6,9 +6,9 @@ namespace CampusBackEnd.Interfaces
     {
         public List<Student> GetStudents();
 
-        public void AddNewStudent(string firstName, string lastName, DateTime birthDate);
+        public void AddStudent(string firstName, string lastName, DateTime birthDate);
 
-        public Student AddNewGrade(int courseID, double grade, string comment, Student student);
+        public Student AddGrade(int courseID, double grade, string comment, Student student);
 
         public double CalculateCourseAverage(List<Grade> courseGrades);
 

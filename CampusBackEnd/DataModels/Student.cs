@@ -1,7 +1,6 @@
 ﻿using CampusBackEnd.Interfaces;
-using Newtonsoft.Json;
 
-namespace CampusBackEnd.DataStorage
+namespace CampusBackEnd.DataModels
 {
     public struct Student: IObjectWithID
     {
@@ -9,11 +8,11 @@ namespace CampusBackEnd.DataStorage
 
         public string LastName { get; set; }
 
-        public readonly DateTime BirthDate { get; }
+        public DateTime BirthDate { get; set; }
 
-        public int ID { get; }
+        public int ID { get; set; }
 
-        public readonly Dictionary<int, List<Grade>> SchoolReport { get; }
+        public Dictionary<int, List<Grade>> SchoolReport { get; set; }
 
         internal Student(string firstName, string lastName, DateTime birthDate, int studentID)
         {
@@ -24,7 +23,6 @@ namespace CampusBackEnd.DataStorage
             this.SchoolReport = new();
         }
 
-        [JsonConstructor]
         internal Student(string firstName, string lastName, DateTime birthDate, int studentID, Dictionary<int, List<Grade>> schoolReport)
             : this(firstName, lastName, birthDate, studentID)
         {

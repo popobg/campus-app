@@ -21,12 +21,8 @@ namespace CampusFrontEnd
 
         static void Main()
         {
-            // backend initialization
             var api = new API();
 
-            // log initialization
-            // RollingInterval.Day ensures that a new log file
-            // is created every day
             Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
             .WriteTo.File("logs\\log-.txt", LogEventLevel.Information, rollingInterval: RollingInterval.Day)

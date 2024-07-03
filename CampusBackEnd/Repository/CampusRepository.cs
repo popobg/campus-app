@@ -1,5 +1,5 @@
 ﻿using CampusBackEnd.Interfaces;
-using CampusBackEnd.DataStorage;
+using CampusBackEnd.DataModels;
 
 namespace CampusBackEnd.Repository
 {
@@ -12,7 +12,7 @@ namespace CampusBackEnd.Repository
         // éventuellement une méthode de SaveJSON appelée chaque fois qu'une action de modification est effectuée sur le JSON
         internal CampusRepository()
         {
-            _campus = JSONSerializer.LoadJSON(_jsonPath);
+            _campus = JSONSerializer.Deserialize(_jsonPath);
         }
 
         // STUDENTS
@@ -21,29 +21,29 @@ namespace CampusBackEnd.Repository
             return this._campus.Students;
         }
 
-        public void AddNewStudent(string firstName, string lastName, DateTime birthDate)
+        public void AddStudent(string firstName, string lastName, DateTime birthDate)
         {
             Student newStudent = new Student(firstName, lastName, birthDate, IDGenerator.GenerateID(this._campus.Students));
 
             this._campus.Students.Add(newStudent);
 
-            JSONSerializer.SaveJSON(_campus, _jsonPath);
+            JSONSerializer.Serialize(_campus, _jsonPath);
         }
 
-        public Student AddNewGrade(int courseID, double grade, string comment, Student student)
+        public Student AddGrade(int courseID, double grade, string comment, Student student)
         {
             if (student.SchoolReport.ContainsKey(courseID))
             {
                 // add a new grade to a course that already has grades
-                student.SchoolReport[courseID].Add(new Grade(grade, comment));
+                student.SchoolReport[courseID].Add(new Grade() { Mark = grade, Comment = comment });
             }
             else
             {
                 // add new courseID (key) and grade to the dictionary
-                student.SchoolReport.Add(courseID, [new Grade(grade, comment)]);
+                student.SchoolReport.Add(courseID, [new Grade() { Mark = grade, Comment = comment }]);
             }
 
-            JSONSerializer.SaveJSON(_campus, _jsonPath);
+            JSONSerializer.Serialize(_campus, _jsonPath);
 
             return student;
         }
@@ -97,13 +97,17 @@ namespace CampusBackEnd.Repository
             throw new Exception("Il n'y a pas de cours à cet ID.");
         }
 
-        public Course AddNewCourse(string fieldName)
+        public Course AddCourse(string name)
         {
-            Course newCourse = new Course(fieldName, IDGenerator.GenerateID(this._campus.Courses));
+            Course newCourse = new Course()
+            {
+                Name = name,
+                ID = IDGenerator.GenerateID(this._campus.Courses)
+            };
 
             this._campus.Courses.Add(newCourse);
 
-            JSONSerializer.SaveJSON(_campus, _jsonPath);
+            JSONSerializer.Serialize(_campus, _jsonPath);
 
             return newCourse;
         }
@@ -114,17 +118,15 @@ namespace CampusBackEnd.Repository
 
             foreach(Student student in this._campus.Students)
             {
-                if (!student.SchoolReport.ContainsKey(courseID))
+                if (student.SchoolReport.ContainsKey(courseID))
                 {
-                    continue;
+                    student.SchoolReport.Remove(courseID);
                 }
-
-                student.SchoolReport.Remove(courseID);
             }
 
             this._campus.Courses.Remove(course);
 
-            JSONSerializer.SaveJSON(_campus, _jsonPath);
+            JSONSerializer.Serialize(_campus, _jsonPath);
         }
     }
 }

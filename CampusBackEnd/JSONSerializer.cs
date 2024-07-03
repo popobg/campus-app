@@ -1,11 +1,11 @@
-﻿using CampusBackEnd.DataStorage;
+﻿using CampusBackEnd.DataModels;
 using Newtonsoft.Json;
 
 namespace CampusBackEnd
 {
     internal static class JSONSerializer
     {
-        public static Campus LoadJSON(string jsonpath)
+        public static Campus Deserialize(string jsonpath)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace CampusBackEnd
 
         }
 
-        public static void SaveJSON(Campus campus, string jsonpath)
+        public static void Serialize(Campus campus, string jsonpath)
         {
             // serializing the data (students list and courses list)
             string serializedData = JsonConvert.SerializeObject(campus, Formatting.Indented);

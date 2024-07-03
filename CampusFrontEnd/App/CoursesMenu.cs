@@ -1,5 +1,5 @@
 ﻿using CampusBackEnd.API;
-using CampusBackEnd.DataStorage;
+using CampusBackEnd.DataModels;
 using Serilog;
 
 namespace CampusFrontEnd.App
@@ -72,7 +72,7 @@ namespace CampusFrontEnd.App
             foreach (Course course in courses)
             {
                 Console.Write("{0, 8}", "");
-                Console.WriteLine($"{index}. Discipline : {course.FieldName}");
+                Console.WriteLine($"{index}. Discipline : {course.Name}");
                 //Console.Write("{0, 8}", "");
                 //Console.WriteLine($"Identifiant : {course.LessonID}");
 
@@ -93,9 +93,9 @@ namespace CampusFrontEnd.App
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.WriteLine("Quelle matière voulez-vous ajouter au programme ?");
             Console.Write($">{" ",4}");
-            string fieldName = CheckInput.CheckName(Console.ReadLine(), MenuChoices.CHECK_COURSE_NAME);
+            string courseName = CheckInput.CheckName(Console.ReadLine(), MenuChoices.CHECK_COURSE_NAME);
 
-            Console.WriteLine($"Nouveau cours : {fieldName}.");
+            Console.WriteLine($"Nouveau cours : {courseName}.");
 
             // Confirmation
             int choice = CheckInput.ConfirmationCheck("Ajouter ce cours au programme ? (y/n)");
@@ -109,19 +109,19 @@ namespace CampusFrontEnd.App
                 return;
             }
 
-            this._api.AddNewCourse(fieldName);
+            this._api.AddCourse(courseName);
             Console.WriteLine("Le cours a bien été ajouté au programme.");
             Console.WriteLine("\n" + MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.ReadKey(false);
 
-            Log.Information($"Ajout du cours {fieldName} au programme");
+            Log.Information($"Ajout du cours {courseName} au programme");
         }
 
         internal void ManageRemovingCourse(Course course)
         {
             // Confirmation
-            int choice = CheckInput.ConfirmationCheck($"Supprimer le cours {course.FieldName} du programme ? (y/n)");
+            int choice = CheckInput.ConfirmationCheck($"Supprimer le cours {course.Name} du programme ? (y/n)");
 
             if (choice == MenuChoices.NO)
             {
@@ -133,10 +133,10 @@ namespace CampusFrontEnd.App
             }
 
             // necessary for the log
-            string courseName = course.FieldName;
+            string courseName = course.Name;
 
             this._api.RemoveCourse(course);
-            Console.WriteLine($"Le cours {course.FieldName} a été supprimé avec succès.");
+            Console.WriteLine($"Le cours {course.Name} a été supprimé avec succès.");
             Console.WriteLine("\n" + MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.ReadKey(false);

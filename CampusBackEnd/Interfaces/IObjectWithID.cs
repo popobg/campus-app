@@ -2,6 +2,6 @@
 {
     internal interface IObjectWithID
     {
-        public int ID { get; }
+        public int ID { get; set; }
     }
 }

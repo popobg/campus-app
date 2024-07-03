@@ -1,4 +1,4 @@
-﻿using CampusBackEnd.DataStorage;
+﻿using CampusBackEnd.DataModels;
 
 namespace CampusBackEnd.Interfaces
 {
