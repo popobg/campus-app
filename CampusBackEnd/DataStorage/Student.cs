@@ -4,9 +4,9 @@ namespace CampusBackEnd.DataStorage
 {
     public struct Student
     {
-        public string LastName { get; set; }
-
         public string FirstName { get; set; }
+
+        public string LastName { get; set; }
 
         public readonly DateTime BirthDate { get; }
 
@@ -14,10 +14,10 @@ namespace CampusBackEnd.DataStorage
 
         public readonly Dictionary<int, List<Grade>> SchoolReport { get; }
 
-        internal Student(string lastName, string firstName, DateTime birthDate, int studentID)
+        internal Student(string firstName, string lastName, DateTime birthDate, int studentID)
         {
-            this.LastName = lastName;
             this.FirstName = firstName;
+            this.LastName = lastName;
             this.BirthDate = birthDate;
             this.StudentID = studentID;
             this.SchoolReport = new();

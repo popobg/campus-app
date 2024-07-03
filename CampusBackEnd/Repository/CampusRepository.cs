@@ -121,7 +121,7 @@ namespace CampusBackEnd.Repository
         // methods using polymorphism
         public void AddNewItem(string firstName, string lastName, DateTime birthDate)
         {
-            Student newStudent = new Student(firstName, lastName, birthDate, this.GetNewID(this._campus.Students));
+            Student newStudent = new Student(firstName, lastName, birthDate, IDGenerator.GenerateID(this._campus.Students));
 
             this._campus.Students.Add(newStudent);
 
@@ -130,26 +130,13 @@ namespace CampusBackEnd.Repository
 
         public Course AddNewItem(string fieldName)
         {
-            Course newCourse = new Course(fieldName, this.GetNewID(this._campus.Courses));
+            Course newCourse = new Course(fieldName, IDGenerator.GenerateID(this._campus.Courses));
 
             this._campus.Courses.Add(newCourse);
 
             JSONSerializer.SaveJSON(_campus, _jsonPath);
 
             return newCourse;
-        }
-
-        // only called in the AddNewItem method
-        private int GetNewID(List<Student> students)
-        {
-            if (students.Count == 0) return 1;
-            else return (students.Last().StudentID + 1);
-        }
-
-        private int GetNewID(List<Course> courses)
-        {
-            if (courses.Count == 0) return 1;
-            else return (courses.Last().CourseID + 1);
         }
     }
 }

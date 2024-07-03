@@ -12,7 +12,14 @@
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
+    <ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>TestCampusApp</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+
+	<ItemGroup>
     <ProjectReference Include="..\CampusBackEnd\CampusBackEnd.csproj" />
   </ItemGroup>
 
