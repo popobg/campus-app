@@ -3,11 +3,11 @@ using Newtonsoft.Json;
 
 namespace CampusBackEnd.DataStorage
 {
-    public readonly struct Course: IObjectWithID
+    public struct Course: IObjectWithID
     {
-        public string FieldName { get; }
+        public readonly string FieldName { get; }
 
-        public int ID { get; }
+        public int ID { get; set; }
 
         [JsonConstructor]
         internal Course(string fieldName, int courseID)

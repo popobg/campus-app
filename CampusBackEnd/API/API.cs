@@ -23,6 +23,11 @@ namespace CampusBackEnd.API
             return this._campusRepository.GetStudents();
         }
 
+        public void AddNewStudent(string firstName, string lastName, DateTime birthDate)
+        {
+            this._campusRepository.AddNewStudent(firstName, lastName, birthDate);
+        }
+
         public Student AddNewGrade(int courseID, double grade, string comment, Student student)
         {
             return this._campusRepository.AddNewGrade(courseID, grade, comment, student);
@@ -49,19 +54,14 @@ namespace CampusBackEnd.API
             return this._campusRepository.GetCourse(ID);
         }
 
+        public Course AddNewCourse(string fieldName)
+        {
+            return this._campusRepository.AddNewCourse(fieldName);
+        }
+
         public void RemoveCourse(Course course)
         {
             this._campusRepository.RemoveCourse(course);
-        }
-
-        public void AddNewItem(string firstName, string lastName, DateTime birthDate)
-        {
-            this._campusRepository.AddNewItem(firstName, lastName, birthDate);
-        }
-
-        public Course AddNewItem(string fieldName)
-        {
-            return this._campusRepository.AddNewItem(fieldName);
         }
     }
 }

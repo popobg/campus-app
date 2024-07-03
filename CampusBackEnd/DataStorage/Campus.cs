@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace CampusBackEnd.DataStorage
+﻿namespace CampusBackEnd.DataStorage
 {
     public struct Campus
     {

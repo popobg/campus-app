@@ -4,12 +4,14 @@ namespace CampusBackEnd.Interfaces
 {
     internal interface IStudentRepository
     {
-        List<Student> GetStudents();
+        public List<Student> GetStudents();
 
-        Student AddNewGrade(int courseID, double grade, string comment, Student student);
+        public void AddNewStudent(string firstName, string lastName, DateTime birthDate);
 
-        double CalculateCourseAverage(List<Grade> courseGrades);
+        public Student AddNewGrade(int courseID, double grade, string comment, Student student);
 
-        double CalculateGeneralAverage(Student student);
+        public double CalculateCourseAverage(List<Grade> courseGrades);
+
+        public double CalculateGeneralAverage(Student student);
     }
 }

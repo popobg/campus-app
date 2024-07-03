@@ -21,6 +21,15 @@ namespace CampusBackEnd.Repository
             return this._campus.Students;
         }
 
+        public void AddNewStudent(string firstName, string lastName, DateTime birthDate)
+        {
+            Student newStudent = new Student(firstName, lastName, birthDate, IDGenerator.GenerateID(this._campus.Students));
+
+            this._campus.Students.Add(newStudent);
+
+            JSONSerializer.SaveJSON(_campus, _jsonPath);
+        }
+
         public Student AddNewGrade(int courseID, double grade, string comment, Student student)
         {
             if (student.SchoolReport.ContainsKey(courseID))
@@ -78,14 +87,25 @@ namespace CampusBackEnd.Repository
         }
 
         // pas sûre de le laisser là lui --> peut-être plutôt dans le FrontEnd
-        public Course GetCourse(int ID)
+        public Course GetCourse(int courseID)
         {
             foreach (Course course in this._campus.Courses)
             {
-                if (course.ID == ID) return course;
+                if (course.ID == courseID) return course;
             }
 
             throw new Exception("Il n'y a pas de cours à cet ID.");
+        }
+
+        public Course AddNewCourse(string fieldName)
+        {
+            Course newCourse = new Course(fieldName, IDGenerator.GenerateID(this._campus.Courses));
+
+            this._campus.Courses.Add(newCourse);
+
+            JSONSerializer.SaveJSON(_campus, _jsonPath);
+
+            return newCourse;
         }
 
         public void RemoveCourse(Course course)
@@ -105,27 +125,6 @@ namespace CampusBackEnd.Repository
             this._campus.Courses.Remove(course);
 
             JSONSerializer.SaveJSON(_campus, _jsonPath);
-        }
-
-        // methods using polymorphism
-        public void AddNewItem(string firstName, string lastName, DateTime birthDate)
-        {
-            Student newStudent = new Student(firstName, lastName, birthDate, IDGenerator.GenerateID(this._campus.Students));
-
-            this._campus.Students.Add(newStudent);
-
-            JSONSerializer.SaveJSON(_campus, _jsonPath);
-        }
-
-        public Course AddNewItem(string fieldName)
-        {
-            Course newCourse = new Course(fieldName, IDGenerator.GenerateID(this._campus.Courses));
-
-            this._campus.Courses.Add(newCourse);
-
-            JSONSerializer.SaveJSON(_campus, _jsonPath);
-
-            return newCourse;
         }
     }
 }

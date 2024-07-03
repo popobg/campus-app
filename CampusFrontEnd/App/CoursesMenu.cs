@@ -109,7 +109,7 @@ namespace CampusFrontEnd.App
                 return;
             }
 
-            this._api.AddNewItem(fieldName);
+            this._api.AddNewCourse(fieldName);
             Console.WriteLine("Le cours a bien été ajouté au programme.");
             Console.WriteLine("\n" + MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);

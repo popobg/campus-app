@@ -6,7 +6,9 @@ namespace CampusBackEnd.Interfaces
     {
         public List<Course> GetCourses();
 
-        public Course GetCourse(int ID);
+        public Course GetCourse(int courseID);
+
+        public Course AddNewCourse(string fieldName);
 
         public void RemoveCourse(Course course);
     }

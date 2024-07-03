@@ -124,7 +124,7 @@ namespace CampusFrontEnd.App
                 return;
             }
 
-            this._api.AddNewItem(firstName, lastName, birthDate);
+            this._api.AddNewStudent(firstName, lastName, birthDate);
             Console.WriteLine();
             Console.WriteLine("L'élève a été ajouté avec succès à la liste des élèves du campus.\nVous pouvez maintenant consulter ses informations et lui ajouter des cours, des notes et des appréciations.");
             Console.WriteLine();

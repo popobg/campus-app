@@ -2,11 +2,11 @@
 
 namespace CampusBackEnd.DataStorage
 {
-    public struct Grade
+    public readonly struct Grade
     {
-        public double Mark { get; private set; }
+        public double Mark { get; }
 
-        public string Comment { get; private set; }
+        public string Comment { get; }
 
         [JsonConstructor]
         internal Grade(double mark, string comment)
