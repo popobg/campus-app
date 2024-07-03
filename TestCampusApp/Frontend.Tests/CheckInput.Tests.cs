@@ -1,6 +1,6 @@
 ﻿using CampusFrontEnd.App;
 
-namespace TestCampusApp
+namespace CampusApp.Tests.Frontend.Tests
 {
     public class CheckInputTest
     {

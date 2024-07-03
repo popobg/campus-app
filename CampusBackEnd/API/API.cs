@@ -23,11 +23,6 @@ namespace CampusBackEnd.API
             return this._campusRepository.GetStudents();
         }
 
-        public Student GetStudent(int ID)
-        {
-            return this._campusRepository.GetStudent(ID);
-        }
-
         public Student AddNewGrade(int courseID, double grade, string comment, Student student)
         {
             return this._campusRepository.AddNewGrade(courseID, grade, comment, student);

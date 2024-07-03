@@ -21,17 +21,6 @@ namespace CampusBackEnd.Repository
             return this._campus.Students;
         }
 
-        // pas sûre de le laisser là lui --> peut-être plutôt dans le FrontEnd
-        public Student GetStudent(int ID)
-        {
-            foreach (Student student in this._campus.Students)
-            {
-                if (student.StudentID == ID) return student;
-            }
-
-            throw new Exception("Il n'y a pas d'élève à cet ID.");
-        }
-
         public Student AddNewGrade(int courseID, double grade, string comment, Student student)
         {
             if (student.SchoolReport.ContainsKey(courseID))
@@ -93,7 +82,7 @@ namespace CampusBackEnd.Repository
         {
             foreach (Course course in this._campus.Courses)
             {
-                if (course.CourseID == ID) return course;
+                if (course.ID == ID) return course;
             }
 
             throw new Exception("Il n'y a pas de cours à cet ID.");
@@ -101,7 +90,7 @@ namespace CampusBackEnd.Repository
 
         public void RemoveCourse(Course course)
         {
-            int courseID = course.CourseID;
+            int courseID = course.ID;
 
             foreach(Student student in this._campus.Students)
             {

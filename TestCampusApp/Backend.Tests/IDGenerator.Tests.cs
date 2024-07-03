@@ -1,7 +1,7 @@
+using CampusBackEnd;
 using CampusBackEnd.DataStorage;
-using CampusBackEnd.Repository;
 
-namespace TestCampusApp
+namespace CampusApp.Tests.Backend.Tests
 {
     public class IDGeneratorTest
     {

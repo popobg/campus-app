@@ -229,7 +229,7 @@ namespace CampusFrontEnd.App
                 return;
             }
 
-            this._api.AddNewGrade(course.CourseID, grade, comment, student);
+            this._api.AddNewGrade(course.ID, grade, comment, student);
             Console.WriteLine();
             Console.WriteLine("La note et l'appréciation ont été ajoutées avec succès au bulletin de l'élève.");
             Console.WriteLine("\n" + MenuChoices.RETURN);

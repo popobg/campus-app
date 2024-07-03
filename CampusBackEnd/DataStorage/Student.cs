@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using CampusBackEnd.Interfaces;
+using Newtonsoft.Json;
 
 namespace CampusBackEnd.DataStorage
 {
-    public struct Student
+    public struct Student: IObjectWithID
     {
         public string FirstName { get; set; }
 
@@ -10,7 +11,7 @@ namespace CampusBackEnd.DataStorage
 
         public readonly DateTime BirthDate { get; }
 
-        public readonly int StudentID { get; }
+        public int ID { get; }
 
         public readonly Dictionary<int, List<Grade>> SchoolReport { get; }
 
@@ -19,7 +20,7 @@ namespace CampusBackEnd.DataStorage
             this.FirstName = firstName;
             this.LastName = lastName;
             this.BirthDate = birthDate;
-            this.StudentID = studentID;
+            this.ID = studentID;
             this.SchoolReport = new();
         }
 

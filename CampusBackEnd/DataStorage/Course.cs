@@ -1,18 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using CampusBackEnd.Interfaces;
+using Newtonsoft.Json;
 
 namespace CampusBackEnd.DataStorage
 {
-    public struct Course
+    public readonly struct Course: IObjectWithID
     {
-        public readonly string FieldName { get; }
+        public string FieldName { get; }
 
-        public readonly int CourseID { get; }
+        public int ID { get; }
 
         [JsonConstructor]
         internal Course(string fieldName, int courseID)
         {
             this.FieldName = fieldName;
-            this.CourseID = courseID;
+            this.ID = courseID;
         }
     }
 }
