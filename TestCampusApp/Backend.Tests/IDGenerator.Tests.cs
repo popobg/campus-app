@@ -1,5 +1,5 @@
-using CampusBackEnd;
 using CampusBackEnd.DataModels;
+using CampusBackEnd.Helper;
 
 namespace CampusApp.Tests.Backend.Tests
 {

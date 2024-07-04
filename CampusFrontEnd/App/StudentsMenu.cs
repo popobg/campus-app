@@ -4,68 +4,9 @@ using Serilog;
 
 namespace CampusFrontEnd.App
 {
-    internal class StudentsMenu
+    internal static class StudentsMenu
     {
-        private readonly API _api;
-
-        internal Menu Menu { get; set; }
-
-        internal StudentsMenu(API api)
-        {
-            this._api = api;
-        }
-
-        internal void DisplayStudentsMenu()
-        {
-            Console.Clear();
-
-            Console.WriteLine(MenuChoices.SEPARATION_LINE);
-            Console.WriteLine("        MENU ELEVES\n");
-
-            Console.WriteLine("Tapez l'option qui vous intéresse (1, 2, 3, 4, 5) :");
-            Console.WriteLine("1. Lister les élèves");
-            Console.WriteLine("2. Créer un nouvel élève");
-            Console.WriteLine("3. Consulter un élève existant");
-            Console.WriteLine("4. Ajouter une note et une appréciation pour le cours d'un élève");
-            Console.WriteLine("5. Retour au menu principal");
-            Console.WriteLine();
-
-            Console.Write(">{0, 4}", "");
-
-            string input = Console.ReadLine();
-
-            while (!CheckInput.CheckInt(input, 1, 5))
-            {
-                Console.WriteLine("Le chiffre n'est pas reconnu. Veuillez saisir une option entre 1 et 5.");
-                Console.Write($">{" ",4}");
-                input = Console.ReadLine();
-            }
-
-            int inputChoice = Convert.ToInt32(input);
-
-            if (inputChoice == 1)
-            {
-                Menu.ManageMenus(MenuChoices.LIST_STUDENTS);
-            }
-            else if (inputChoice == 2)
-            {
-                Menu.ManageMenus(MenuChoices.NEW_STUDENT);
-            }
-            else if (inputChoice == 3)
-            {
-                Menu.ManageMenus(MenuChoices.DISPLAY_STUDENT);
-            }
-            else if (inputChoice == 4)
-            {
-                Menu.ManageMenus(MenuChoices.ADD_GRADE);
-            }
-            else
-            {
-                Menu.ManageMenus();
-            }
-        }
-
-        internal void DisplayListStudents(List<Student> students, int directCall = 0)
+        internal static void DisplayListStudents(List<Student> students, int directCall = 1)
         {
             Console.Clear();
             int listIndex = 1;
@@ -96,19 +37,17 @@ namespace CampusFrontEnd.App
             if (directCall == 1)
             {
                 Log.Information("Consultation de la liste des élèves");
+                Console.ReadKey(false);
             }
         }
 
-        internal void CreateNewStudent()
+        private static List<string> GettingUserStudentInfo()
         {
-            Console.WriteLine(MenuChoices.SEPARATION_LINE);
-            Console.WriteLine("AJOUT D'UN ELEVE A LA LISTE DU CAMPUS :");
-            Console.WriteLine();
-
+            #region getting first name from user
             Console.WriteLine("Quel est le prénom de l'élève ?");
             Console.Write($">{" ",4}");
             string firstName = Console.ReadLine();
-            
+
             while (!CheckInput.CheckName(firstName, MenuChoices.CHECK_PERSON_NAME))
             {
                 Console.WriteLine("Le nom ne doit comporter que des lettres ; plusieurs mots peuvent être séparés par un tiret ou un espace.\nLes majuscules et minuscules sont acceptées.");
@@ -116,7 +55,9 @@ namespace CampusFrontEnd.App
                 Console.Write($">{" ",4}");
                 firstName = Console.ReadLine();
             }
+            #endregion
 
+            #region getting last name from user
             Console.WriteLine("Quel est le nom de l'élève ?");
             Console.Write($">{" ",4}");
             string lastName = Console.ReadLine();
@@ -128,11 +69,13 @@ namespace CampusFrontEnd.App
                 Console.Write($">{" ",4}");
                 lastName = Console.ReadLine();
             }
+            #endregion
 
+            #region getting birth date from user
             Console.WriteLine("Quelle est sa date de naissance (format dd/mm/aaaa) ?");
             Console.Write($">{" ",4}");
-            string dateInput = Console.ReadLine(); 
-            
+            string dateInput = Console.ReadLine();
+
             while (!CheckInput.CheckDateTime(dateInput))
             {
                 Console.WriteLine("La date de naissance doit être au format DD/MM/YYYY. Les dates entrées doivent exister.");
@@ -140,26 +83,25 @@ namespace CampusFrontEnd.App
                 Console.Write($">{" ",4}");
                 dateInput = Console.ReadLine();
             }
+            #endregion
 
-            DateTime birthDate = DateTime.ParseExact(dateInput, "dd/MM/yyyy", null);
+            return new List<string>() { firstName, lastName, dateInput };
+        }
 
-            Console.WriteLine($"Prénom : {firstName}, nom : {lastName}");
-            Console.WriteLine($"Date de naissance : {birthDate.ToShortDateString()}\n");
+        internal static void CreateNewStudent(API api)
+        {
+            Console.WriteLine(MenuChoices.SEPARATION_LINE);
+            Console.WriteLine("AJOUT D'UN ELEVE A LA LISTE DU CAMPUS :");
+            Console.WriteLine();
+
+            List<string> infos = GettingUserStudentInfo();
+
+            Console.WriteLine($"Prénom : {infos[0]}, nom : {infos[1]}");
+            Console.WriteLine($"Date de naissance : {infos[2]}\n");
 
             string message = "Ajouter cet élève au campus ? (y/n)";
 
-            Console.WriteLine();
-            Console.WriteLine(message);
-            Console.Write($">{" ",4}");
-
-            string confirmation = Console.ReadLine().ToLower();
-
-            while (!CheckInput.ConfirmationCheck(confirmation))
-            {
-                Console.WriteLine(message);
-                Console.Write($">{" ",4}");
-                confirmation = Console.ReadLine().ToLower();
-            }
+            string confirmation = App.ConfirmationLoop(message);
 
             if (confirmation == "n")
             {
@@ -171,7 +113,7 @@ namespace CampusFrontEnd.App
                 return;
             }
 
-            this._api.AddStudents(firstName, lastName, birthDate);
+            api.AddStudents(infos[0], infos[1], DateTime.ParseExact(infos[2], "dd/MM/yyyy", null));
             Console.WriteLine();
             Console.WriteLine("L'élève a été ajouté avec succès à la liste des élèves du campus.\nVous pouvez maintenant consulter ses informations et lui ajouter des cours, des notes et des appréciations.");
             Console.WriteLine();
@@ -179,10 +121,10 @@ namespace CampusFrontEnd.App
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.ReadKey(false);
 
-            Log.Information($"Ajout de l'élève {firstName} {lastName} à la liste du campus");
+            Log.Information($"Ajout de l'élève {infos[0]} {infos[1]} à la liste du campus");
         }
 
-        internal void DisplayStudentInfo(Student student)
+        internal static void DisplayStudentInfo(API api, Student student)
         {
             Console.Clear();
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
@@ -200,7 +142,7 @@ namespace CampusFrontEnd.App
 
             foreach (KeyValuePair<int, List<Grade>> kvp in student.SchoolReport)
             {
-                string courseName = this._api.GetCourse(kvp.Key).Name;
+                string courseName = api.GetCourse(kvp.Key).Name;
 
                 Console.Write("{0, 8}", " ");
                 Console.WriteLine($"Cours : {courseName}");
@@ -216,13 +158,13 @@ namespace CampusFrontEnd.App
                 }
 
                 Console.Write("{0, 8}", " ");
-                Console.WriteLine($"Moyenne pour ce cours : {this._api.CalculateCourseAverage(kvp.Value)}/20");
+                Console.WriteLine($"Moyenne pour ce cours : {api.CalculateCourseAverage(kvp.Value)}/20");
                 Console.WriteLine();
             }
 
             Console.WriteLine();
 
-            double average = this._api.CalculateGeneralAverage(student);
+            double average = api.CalculateGeneralAverage(student);
 
             if (average == -1)
             {
@@ -243,7 +185,7 @@ namespace CampusFrontEnd.App
             Log.Information($"Consultation du bulletin de l'élève {student.FirstName} {student.LastName}");
         }
 
-        internal void ManageAddingGrade(Student student, Course course)
+        internal static void ManageAddingGrade(API api, Student student, Course course)
         {
             Console.WriteLine($"ELEVE : {student.FirstName} {student.LastName}");
 
@@ -275,18 +217,7 @@ namespace CampusFrontEnd.App
 
             string message = "Ajouter cette note et cette appréciation à l'élève ? (y/n)";
 
-            Console.WriteLine();
-            Console.WriteLine(message);
-            Console.Write($">{" ",4}");
-
-            string confirmation = Console.ReadLine().ToLower();
-
-            while (!CheckInput.ConfirmationCheck(confirmation))
-            {
-                Console.WriteLine(message);
-                Console.Write($">{" ",4}");
-                confirmation = Console.ReadLine()?.ToLower();
-            }
+            string confirmation = App.ConfirmationLoop(message);
 
             if (confirmation == "n")
             {
@@ -297,7 +228,7 @@ namespace CampusFrontEnd.App
                 return;
             }
 
-            this._api.AddGrade(course.ID, grade, comment, student);
+            api.AddGrade(course.ID, grade, comment, student);
             Console.WriteLine();
             Console.WriteLine("La note et l'appréciation ont été ajoutées avec succès au bulletin de l'élève.");
             Console.WriteLine("\n" + MenuChoices.RETURN);

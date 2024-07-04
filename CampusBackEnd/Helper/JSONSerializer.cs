@@ -1,10 +1,15 @@
 ﻿using CampusBackEnd.DataModels;
 using Newtonsoft.Json;
 
-namespace CampusBackEnd
+namespace CampusBackEnd.Helper
 {
     internal static class JSONSerializer
     {
+        /// <summary>
+        /// Deserializes data from json file.
+        /// </summary>
+        /// <param name="jsonpath">Path of the .json file saving data</param>
+        /// <returns>Campus object</returns>
         public static Campus Deserialize(string jsonpath)
         {
             try
@@ -30,12 +35,16 @@ namespace CampusBackEnd
 
         }
 
+        /// <summary>
+        /// Saves data from the campus instance (list of students and courses)
+        /// into the json file.
+        /// </summary>
+        /// <param name="campus">Campus object</param>
+        /// <param name="jsonpath">Path of the .json file saving data</param>
         public static void Serialize(Campus campus, string jsonpath)
         {
-            // serializing the data (students list and courses list)
             string serializedData = JsonConvert.SerializeObject(campus, Formatting.Indented);
 
-            // Writting in file
             File.WriteAllText(jsonpath, serializedData);
         }
     }
