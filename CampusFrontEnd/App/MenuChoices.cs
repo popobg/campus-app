@@ -16,12 +16,9 @@
         public const int LIST_COURSES = 7;
         public const int ADD_LESSON = 8;
         public const int REMOVE_LESSON = 9;
-        // Confirmation choices
-        public const int YES = 10;
-        public const int NO = 11;
         // which type of name
-        public const int CHECK_PERSON_NAME = 12;
-        public const int CHECK_COURSE_NAME = 13;
+        public const int CHECK_PERSON_NAME = 10;
+        public const int CHECK_COURSE_NAME = 11;
 
         public const string RETURN = "Appuyez sur n'importe quelle touche pour revenir au menu précédent.";
         public const string SEPARATION_LINE = "---------------------------------------------";

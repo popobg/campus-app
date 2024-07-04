@@ -9,7 +9,7 @@ namespace CampusApp.Tests.Backend.Tests
         private List<Student> studentsEmpty = new();
         private List<Student> students = [new Student("Popo", "bg", DateTime.ParseExact("23/11/1997", "dd/MM/yyyy", null), 2)];
         private List<Course> coursesEmpty = new();
-        private List<Course> courses = [new Course() { Name = "Français", ID = 2 }];
+        private List<Course> courses = [new Course() { Name = "Français", ID = 2 }]; 
 
         [Fact]
         public void IDGeneratorEmptyListStudents()

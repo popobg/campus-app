@@ -16,6 +16,9 @@ namespace CampusFrontEnd
             studentsMenu.Menu = menu;
             coursesMenu.Menu = menu;
 
+            //int choice;
+
+            //while(choice != )
             menu.ManageMenus();
         }
 
