@@ -2,26 +2,12 @@
 using Serilog;
 using CampusBackEnd.API;
 using CampusFrontEnd.App;
+using CampusBackEnd.DataModels;
 
 namespace CampusFrontEnd
 {
     internal class Program
     {
-        static void RunApp(API api)
-        {
-            var studentsMenu = new StudentsMenu(api);
-            var coursesMenu = new CoursesMenu(api);
-            var menu = new Menu(api, studentsMenu, coursesMenu);
-            
-            studentsMenu.Menu = menu;
-            coursesMenu.Menu = menu;
-
-            //int choice;
-
-            //while(choice != )
-            menu.ManageMenus();
-        }
-
         static void Main()
         {
             var api = new API();
@@ -31,7 +17,8 @@ namespace CampusFrontEnd
             .WriteTo.File("logs\\log-.txt", LogEventLevel.Information, rollingInterval: RollingInterval.Day)
             .CreateLogger();
 
-            RunApp(api);
+            var app = new App.App(api);
+            app.RunApp();
         }
     }
 }

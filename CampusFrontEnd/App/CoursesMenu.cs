@@ -1,69 +1,14 @@
 ﻿using CampusBackEnd.API;
 using CampusBackEnd.DataModels;
 using Serilog;
-using System.Xml.Linq;
 
 namespace CampusFrontEnd.App
 {
-    internal class CoursesMenu
+    internal static class CoursesMenu
     {
-        private readonly API _api;
-
-        internal Menu Menu { get; set; }
-
-        internal CoursesMenu(API api)
-        {
-            this._api = api;
-        }
-
-        internal void DisplayCoursesMenu()
+        internal static void DisplayListCourses(List<Course> courses, int directCall = 1)
         {
             Console.Clear();
-
-            Console.WriteLine(MenuChoices.SEPARATION_LINE);
-            Console.WriteLine("        MENU COURS\n");
-
-            Console.WriteLine("Tapez l'option qui vous intéresse (1, 2, 3, 4) :");
-            Console.WriteLine("1. Lister les cours existants");
-            Console.WriteLine("2. Ajouter un nouveau cours au programme");
-            Console.WriteLine("3. Supprimer un cours par son identifiant");
-            Console.WriteLine("4. Retour au menu principal");
-            Console.WriteLine();
-
-            Console.Write($">{" ",4}");
-
-            string input = Console.ReadLine();
-
-            while (!CheckInput.CheckInt(input, 1, 4))
-            {
-                Console.WriteLine("Le chiffre n'est pas reconnu. Vous devez rentrer une option entre 1 et 4.");
-                Console.Write($">{" ",4}");
-                input = Console.ReadLine();
-            }
-
-            int inputChoice = Convert.ToInt32(input);
-
-            if (inputChoice == 1)
-            {
-                Menu.ManageMenus(MenuChoices.LIST_COURSES);
-            }
-            else if (inputChoice == 2)
-            {
-                Menu.ManageMenus(MenuChoices.ADD_LESSON);
-            }
-            else if (inputChoice == 3)
-            {
-                Menu.ManageMenus(MenuChoices.REMOVE_LESSON);
-            }
-            else
-            {
-                Menu.ManageMenus();
-            }
-        }
-
-        internal void DisplayListCourses(List<Course> courses, int directCall = 1)
-        {
-            int index = 1;
 
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
 
@@ -77,14 +22,14 @@ namespace CampusFrontEnd.App
                 return;
             }
 
+            int index = 1;
+
             Console.WriteLine("Liste des cours disponibles sur le campus :\n");
 
             foreach (Course course in courses)
             {
                 Console.Write("{0, 8}", "");
                 Console.WriteLine($"{index}. Discipline : {course.Name}");
-                //Console.Write("{0, 8}", "");
-                //Console.WriteLine($"Identifiant : {course.LessonID}");
 
                 index++;
             }
@@ -95,10 +40,11 @@ namespace CampusFrontEnd.App
             if (directCall == 1)
             {
                 Log.Information("Consultation de la liste des cours");
+                Console.ReadKey(false);
             }
         }
 
-        internal void ManageAddingCourse()
+        internal static void ManageAddingCourse(API api)
         {
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.WriteLine("Quelle matière voulez-vous ajouter au programme ?");
@@ -116,7 +62,7 @@ namespace CampusFrontEnd.App
 
             Console.WriteLine($"Nouveau cours : {courseName}.");
 
-            this._api.AddCourse(courseName);
+            api.AddCourse(courseName);
             Console.WriteLine("Le cours a bien été ajouté au programme.");
             Console.WriteLine("\n" + MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
@@ -125,21 +71,11 @@ namespace CampusFrontEnd.App
             Log.Information($"Ajout du cours {courseName} au programme");
         }
 
-        internal void ManageRemovingCourse(Course course)
+        internal static void ManageRemovingCourse(API api, Course course)
         {
             string message = $"Supprimer le cours {course.Name} du programme ? (y / n)";
-            Console.WriteLine();
-            Console.WriteLine(message);
-            Console.Write($">{" ",4}");
 
-            string confirmation = Console.ReadLine().ToLower();
-
-            while (!CheckInput.ConfirmationCheck(confirmation))
-            {
-                Console.WriteLine(message);
-                Console.Write($">{" ",4}");
-                confirmation = Console.ReadLine().ToLower();
-            }
+            string confirmation = App.ConfirmationLoop(message);
 
             if (confirmation == "n")
             {
@@ -150,10 +86,10 @@ namespace CampusFrontEnd.App
                 return;
             }
 
-            // necessary for the log
+            // required for the log
             string courseName = course.Name;
 
-            this._api.RemoveCourse(course);
+            api.RemoveCourse(course);
             Console.WriteLine($"Le cours {courseName} a été supprimé avec succès.");
             Console.WriteLine("\n" + MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);

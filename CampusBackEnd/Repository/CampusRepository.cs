@@ -1,5 +1,6 @@
 ﻿using CampusBackEnd.Interfaces;
 using CampusBackEnd.DataModels;
+using CampusBackEnd.Helper;
 
 namespace CampusBackEnd.Repository
 {
@@ -8,14 +9,12 @@ namespace CampusBackEnd.Repository
         private const string _jsonPath = "campus.json";
         private Campus _campus;
 
-        // rajouter une interface avec les méthodes pour choper le JSON
-        // éventuellement une méthode de SaveJSON appelée chaque fois qu'une action de modification est effectuée sur le JSON
         internal CampusRepository()
         {
             _campus = JSONSerializer.Deserialize(_jsonPath);
         }
 
-        // STUDENTS
+        #region STUDENTS
         public List<Student> GetStudents()
         {
             return this._campus.Students;
@@ -79,14 +78,14 @@ namespace CampusBackEnd.Repository
 
             return Math.Round(averages.Average(), 1, MidpointRounding.AwayFromZero);
         }
+        #endregion
 
-        // COURSES
+        #region COURSES
         public List<Course> GetCourses()
         {
             return this._campus.Courses;
         }
 
-        // pas sûre de le laisser là lui --> peut-être plutôt dans le FrontEnd
         public Course GetCourse(int courseID)
         {
             foreach (Course course in this._campus.Courses)
@@ -128,5 +127,6 @@ namespace CampusBackEnd.Repository
 
             JSONSerializer.Serialize(_campus, _jsonPath);
         }
+        #endregion
     }
 }
