@@ -125,7 +125,16 @@ namespace CampusFrontEnd.App
 
             Console.Write($">{" ",4}");
 
-            int inputChoice = CheckInput.CheckInt(Console.ReadLine(), 1, 3);
+            string input = Console.ReadLine();
+
+            while(!CheckInput.CheckInt(input, 1, 3))
+            {
+                Console.WriteLine("Le chiffre n'est pas reconnu. Vous devez rentrer une option entre 1 et 3.");
+                Console.Write($">{" ",4}");
+                input = Console.ReadLine();
+            }
+
+            int inputChoice = Convert.ToInt32(input);
 
             if (inputChoice == 1)
             {
@@ -177,10 +186,19 @@ namespace CampusFrontEnd.App
             Console.WriteLine();
             Console.WriteLine(message);
             Console.Write($">{" ",4}");
-            // revoir le message d'erreur
-            int choice = CheckInput.CheckInt(Console.ReadLine(), 1, students.Count());
 
-            return students[choice - 1];
+            string input = Console.ReadLine();
+
+            while (!CheckInput.CheckInt(input, 1, students.Count()))
+            {
+                Console.WriteLine("Le chiffre n'est pas reconnu. Veuillez saisir le numéro d'un élève.");
+                Console.Write($">{" ",4}");
+                input = Console.ReadLine();
+            }
+
+            int inputChoice = Convert.ToInt32(input);
+
+            return students[inputChoice - 1];
         }
 
         private Course ChooseCourse(string message)
@@ -210,9 +228,19 @@ namespace CampusFrontEnd.App
             Console.WriteLine();
             Console.WriteLine(message);
             Console.Write($">{" ",4}");
-            int choice = CheckInput.CheckInt(Console.ReadLine(), 1, courses.Count());
 
-            return courses[choice - 1];
+            string input = Console.ReadLine();
+
+            while (!CheckInput.CheckInt(input, 1, courses.Count()))
+            {
+                Console.WriteLine("Le chiffre n'est pas reconnu. Veuillez saisir le numéro d'un cours.");
+                Console.Write($">{" ",4}");
+                input = Console.ReadLine();
+            }
+
+            int inputChoice = Convert.ToInt32(input);
+
+            return courses[inputChoice - 1];
         }
     }
 }

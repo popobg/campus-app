@@ -1,6 +1,7 @@
 ﻿using CampusBackEnd.API;
 using CampusBackEnd.DataModels;
 using Serilog;
+using System.Xml.Linq;
 
 namespace CampusFrontEnd.App
 {
@@ -31,7 +32,16 @@ namespace CampusFrontEnd.App
 
             Console.Write($">{" ",4}");
 
-            int inputChoice = CheckInput.CheckInt(Console.ReadLine(), 1, 4);
+            string input = Console.ReadLine();
+
+            while (!CheckInput.CheckInt(input, 1, 4))
+            {
+                Console.WriteLine("Le chiffre n'est pas reconnu. Vous devez rentrer une option entre 1 et 4.");
+                Console.Write($">{" ",4}");
+                input = Console.ReadLine();
+            }
+
+            int inputChoice = Convert.ToInt32(input);
 
             if (inputChoice == 1)
             {
@@ -93,21 +103,18 @@ namespace CampusFrontEnd.App
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.WriteLine("Quelle matière voulez-vous ajouter au programme ?");
             Console.Write($">{" ",4}");
-            string courseName = CheckInput.CheckName(Console.ReadLine(), MenuChoices.CHECK_COURSE_NAME);
+
+            string courseName = Console.ReadLine();
+
+            while (!CheckInput.CheckName(courseName, MenuChoices.CHECK_COURSE_NAME))
+            {
+                Console.WriteLine("Le nom doit comporter au moins une lettre ou un chiffre. Il peut comporter des espaces ou des tirets.\nLes majuscules et minuscules sont acceptées.");
+
+                Console.Write($">{" ",4}");
+                courseName = Console.ReadLine();
+            }
 
             Console.WriteLine($"Nouveau cours : {courseName}.");
-
-            // Confirmation
-            int choice = CheckInput.ConfirmationCheck("Ajouter ce cours au programme ? (y/n)");
-
-            if (choice == MenuChoices.NO)
-            {
-                Console.WriteLine("Le cours n'a pas été ajouté au programme.");
-                Console.WriteLine("\n" + MenuChoices.RETURN);
-                Console.WriteLine(MenuChoices.SEPARATION_LINE);
-                Console.ReadKey(false);
-                return;
-            }
 
             this._api.AddCourse(courseName);
             Console.WriteLine("Le cours a bien été ajouté au programme.");
@@ -120,10 +127,21 @@ namespace CampusFrontEnd.App
 
         internal void ManageRemovingCourse(Course course)
         {
-            // Confirmation
-            int choice = CheckInput.ConfirmationCheck($"Supprimer le cours {course.Name} du programme ? (y/n)");
+            string message = $"Supprimer le cours {course.Name} du programme ? (y / n)";
+            Console.WriteLine();
+            Console.WriteLine(message);
+            Console.Write($">{" ",4}");
 
-            if (choice == MenuChoices.NO)
+            string confirmation = Console.ReadLine().ToLower();
+
+            while (!CheckInput.ConfirmationCheck(confirmation))
+            {
+                Console.WriteLine(message);
+                Console.Write($">{" ",4}");
+                confirmation = Console.ReadLine().ToLower();
+            }
+
+            if (confirmation == "n")
             {
                 Console.WriteLine("Le cours n'a pas été supprimé du programme.");
                 Console.WriteLine("\n" + MenuChoices.RETURN);
@@ -136,7 +154,7 @@ namespace CampusFrontEnd.App
             string courseName = course.Name;
 
             this._api.RemoveCourse(course);
-            Console.WriteLine($"Le cours {course.Name} a été supprimé avec succès.");
+            Console.WriteLine($"Le cours {courseName} a été supprimé avec succès.");
             Console.WriteLine("\n" + MenuChoices.RETURN);
             Console.WriteLine(MenuChoices.SEPARATION_LINE);
             Console.ReadKey(false);

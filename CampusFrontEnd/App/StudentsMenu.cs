@@ -32,7 +32,16 @@ namespace CampusFrontEnd.App
 
             Console.Write(">{0, 4}", "");
 
-            int inputChoice = CheckInput.CheckInt(Console.ReadLine(), 1, 5);
+            string input = Console.ReadLine();
+
+            while (!CheckInput.CheckInt(input, 1, 5))
+            {
+                Console.WriteLine("Le chiffre n'est pas reconnu. Veuillez saisir une option entre 1 et 5.");
+                Console.Write($">{" ",4}");
+                input = Console.ReadLine();
+            }
+
+            int inputChoice = Convert.ToInt32(input);
 
             if (inputChoice == 1)
             {
@@ -98,24 +107,61 @@ namespace CampusFrontEnd.App
 
             Console.WriteLine("Quel est le prénom de l'élève ?");
             Console.Write($">{" ",4}");
-            string firstName = CheckInput.CheckName(Console.ReadLine(), MenuChoices.CHECK_PERSON_NAME);
+            string firstName = Console.ReadLine();
+            
+            while (!CheckInput.CheckName(firstName, MenuChoices.CHECK_PERSON_NAME))
+            {
+                Console.WriteLine("Le nom ne doit comporter que des lettres ; plusieurs mots peuvent être séparés par un tiret ou un espace.\nLes majuscules et minuscules sont acceptées.");
+
+                Console.Write($">{" ",4}");
+                firstName = Console.ReadLine();
+            }
 
             Console.WriteLine("Quel est le nom de l'élève ?");
             Console.Write($">{" ",4}");
-            string lastName = CheckInput.CheckName(Console.ReadLine(), MenuChoices.CHECK_PERSON_NAME);
+            string lastName = Console.ReadLine();
+
+            while (!CheckInput.CheckName(lastName, MenuChoices.CHECK_PERSON_NAME))
+            {
+                Console.WriteLine("Le nom ne doit comporter que des lettres ; plusieurs mots peuvent être séparés par un tiret ou un espace.\nLes majuscules et minuscules sont acceptées.");
+
+                Console.Write($">{" ",4}");
+                lastName = Console.ReadLine();
+            }
 
             Console.WriteLine("Quelle est sa date de naissance (format dd/mm/aaaa) ?");
             Console.Write($">{" ",4}");
-            DateTime birthDate = CheckInput.CheckDateTime(Console.ReadLine());
+            string dateInput = Console.ReadLine(); 
+            
+            while (!CheckInput.CheckDateTime(dateInput))
+            {
+                Console.WriteLine("La date de naissance doit être au format DD/MM/YYYY. Les dates entrées doivent exister.");
+
+                Console.Write($">{" ",4}");
+                dateInput = Console.ReadLine();
+            }
+
+            DateTime birthDate = DateTime.ParseExact(dateInput, "dd/MM/yyyy", null);
 
             Console.WriteLine($"Prénom : {firstName}, nom : {lastName}");
             Console.WriteLine($"Date de naissance : {birthDate.ToShortDateString()}\n");
 
-            // Confirmation
-            int choice = CheckInput.ConfirmationCheck("Ajouter cet élève au campus ? (y/n)");
+            string message = "Ajouter cet élève au campus ? (y/n)";
 
-            // student not added, go back to previous menu
-            if (choice == MenuChoices.NO)
+            Console.WriteLine();
+            Console.WriteLine(message);
+            Console.Write($">{" ",4}");
+
+            string confirmation = Console.ReadLine().ToLower();
+
+            while (!CheckInput.ConfirmationCheck(confirmation))
+            {
+                Console.WriteLine(message);
+                Console.Write($">{" ",4}");
+                confirmation = Console.ReadLine().ToLower();
+            }
+
+            if (confirmation == "n")
             {
                 Console.WriteLine("L'élève n'a pas été ajouté à la liste des élèves du campus.");
                 Console.WriteLine();
@@ -204,7 +250,17 @@ namespace CampusFrontEnd.App
             Console.Write("Note à ajouter (obligatoire) :");
             Console.Write("{0, 4}", " ");
 
-            double grade = CheckInput.CheckInputGrade(Console.ReadLine());
+            string gradeInput = Console.ReadLine();
+
+            while (!CheckInput.CheckInputGrade(gradeInput))
+            {
+                Console.WriteLine("Vous devez entrer une note entre 0 et 20.\nLes chiffres à virgule sont acceptés.");
+                Console.Write($">{" ",4}");
+
+                gradeInput = Console.ReadLine();
+            }
+
+            double grade = Convert.ToInt32(gradeInput);
 
             Console.Write("Appréciation (facultative) :");
             Console.Write("{0, 4}", " ");
@@ -217,11 +273,22 @@ namespace CampusFrontEnd.App
             Console.WriteLine($"Note : {grade}/20");
             Console.WriteLine($"Appréciation : {comment}");
 
-            // Confirmation
-            int choice = CheckInput.ConfirmationCheck("Ajouter cette note et cette appréciation à l'élève ? (y/n)");
+            string message = "Ajouter cette note et cette appréciation à l'élève ? (y/n)";
 
-            // no grade added, go back to previous menu
-            if (choice == MenuChoices.NO)
+            Console.WriteLine();
+            Console.WriteLine(message);
+            Console.Write($">{" ",4}");
+
+            string confirmation = Console.ReadLine().ToLower();
+
+            while (!CheckInput.ConfirmationCheck(confirmation))
+            {
+                Console.WriteLine(message);
+                Console.Write($">{" ",4}");
+                confirmation = Console.ReadLine()?.ToLower();
+            }
+
+            if (confirmation == "n")
             {
                 Console.WriteLine("La note et l'appréciation n'ont pas été ajoutées.");
                 Console.WriteLine("\n" + MenuChoices.RETURN);
@@ -241,4 +308,3 @@ namespace CampusFrontEnd.App
         }
     }
 }
-
